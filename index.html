@@ -1,0 +1,3841 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>لوحة قيادة الخطة التنفيذية | كلية التخطيط الإقليمي والعمراني · جامعة القاهرة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#070a10;
+    --bg-1:#0c1119;
+    --bg-2:#121826;
+    --bg-3:#1a2233;
+    --line:rgba(180,200,230,.10);
+    --line-strong:rgba(200,220,255,.20);
+    --ink:#f5f8fc;
+    --ink-2:#c8d0dc;
+    --ink-3:#8892a3;
+    --gold:#d4b06a;
+    --gold-2:#f1d999;
+    --gold-deep:#a07f3e;
+    --accent:#7eb6ff;
+    --accent-2:#4a8fd6;
+    --green:#5fc592;
+    --rose:#e07b7b;
+    --amber:#e6b25e;
+    --purple:#b59ce2;
+    --teal:#5fb8c7;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  html,body{
+    background:var(--bg-0);
+    color:var(--ink);
+    font-family:'Cairo','Tajawal',-apple-system,sans-serif;
+    font-weight:500;
+    line-height:1.6;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    background:
+      radial-gradient(ellipse 900px 700px at 12% 0%, rgba(126,182,255,.07), transparent 60%),
+      radial-gradient(ellipse 800px 600px at 88% 100%, rgba(212,176,106,.06), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 50% 50%, rgba(74,143,214,.04), transparent 70%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  body::after{
+    content:"";
+    position:fixed;inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.014) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.014) 1px, transparent 1px);
+    background-size:60px 60px;
+    pointer-events:none;
+    z-index:0;
+    mask-image:radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  .wrap{
+    position:relative;
+    z-index:1;
+    max-width:1480px;
+    margin:0 auto;
+    padding:32px 40px 80px;
+  }
+
+  /* ===================== HEADER / CREST ===================== */
+  .crest{
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    gap:36px;
+    align-items:center;
+    padding:24px 36px;
+    border:1px solid var(--line-strong);
+    background:linear-gradient(180deg, rgba(26,34,51,.65), rgba(12,17,25,.85));
+    backdrop-filter:blur(8px);
+    border-radius:2px;
+    position:relative;
+    overflow:hidden;
+  }
+  .crest::before{
+    content:"";
+    position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold) 50%, transparent);
+    opacity:.7;
+  }
+  .crest::after{
+    content:"";
+    position:absolute;bottom:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold) 50%, transparent);
+    opacity:.4;
+  }
+
+  .logo-cairo{
+    width:80px;height:80px;
+    border-radius:50%;
+    background:#fff;
+    padding:6px;
+    display:grid;place-items:center;
+    box-shadow:0 0 0 2px var(--gold), 0 0 0 4px rgba(212,176,106,.15);
+  }
+  .logo-cairo img{
+    width:100%;height:100%;
+    object-fit:contain;
+    border-radius:50%;
+  }
+
+  .logo-furp{
+    width:auto;height:80px;
+    background:#fff;
+    padding:8px 14px;
+    border:1px solid var(--gold);
+    display:flex;align-items:center;
+  }
+  .logo-furp img{
+    height:100%;
+    object-fit:contain;
+    filter:contrast(1.1);
+  }
+
+  .crest-title{
+    text-align:center;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:.4em;
+    color:var(--gold);
+    text-transform:uppercase;
+    margin-bottom:8px;
+    font-weight:500;
+  }
+  .institution{
+    font-family:'Cairo', sans-serif;
+    font-size:24px;
+    font-weight:800;
+    color:var(--ink);
+    letter-spacing:.3px;
+    line-height:1.3;
+  }
+  .division{
+    font-family:'Cairo', sans-serif;
+    font-size:14px;
+    color:var(--ink-2);
+    margin-top:6px;
+    font-weight:500;
+    letter-spacing:.3px;
+  }
+  .ornament{
+    display:flex;align-items:center;justify-content:center;
+    gap:8px;
+    margin-top:12px;
+    color:var(--gold);
+    font-size:12px;
+  }
+  .ornament span{height:1px;width:30px;background:var(--gold);opacity:.6}
+
+  /* ===================== TITLE STRIP ===================== */
+  .title-strip{
+    margin-top:28px;
+    padding:22px 0;
+    text-align:center;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .title-strip h1{
+    font-family:'Cairo', sans-serif;
+    font-size:36px;
+    font-weight:900;
+    color:var(--ink);
+    letter-spacing:.5px;
+    background:linear-gradient(180deg, #fff 0%, var(--gold-2) 120%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .title-strip .sub{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:17px;
+    color:var(--gold-2);
+    margin-top:8px;
+    letter-spacing:.5px;
+    font-weight:600;
+  }
+
+  /* ===================== KPI ROW ===================== */
+  .kpi-row{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:18px;
+    margin-top:32px;
+  }
+  .kpi{
+    padding:24px 26px;
+    border:1px solid var(--line-strong);
+    background:linear-gradient(180deg, rgba(26,34,51,.55), rgba(12,17,25,.75));
+    position:relative;
+    overflow:hidden;
+    transition:border-color .3s, transform .3s;
+    cursor:pointer;
+  }
+  .kpi:hover{
+    border-color:var(--gold);
+    transform:translateY(-3px);
+    box-shadow:0 20px 40px -20px rgba(212,176,106,.3);
+  }
+  .kpi::before{
+    content:"";
+    position:absolute;top:0;right:0;width:3px;height:100%;
+    background:linear-gradient(180deg, var(--gold-2), var(--gold) 50%, transparent);
+  }
+  .kpi-label{
+    font-family:'Cairo', sans-serif;
+    font-size:13px;
+    letter-spacing:.5px;
+    color:var(--ink-2);
+    font-weight:700;
+    margin-bottom:14px;
+    text-transform:none;
+  }
+  .kpi-value{
+    font-family:'Cormorant Garamond', serif;
+    font-size:54px;
+    font-weight:700;
+    color:var(--ink);
+    line-height:1;
+    letter-spacing:-1px;
+  }
+  .kpi-value .pct{
+    font-family:'Cairo',sans-serif;
+    font-size:16px;
+    color:var(--gold-2);
+    margin-right:6px;
+    font-weight:700;
+  }
+  .kpi-foot{
+    margin-top:12px;
+    font-size:12px;
+    color:var(--ink-2);
+    font-weight:500;
+    display:flex;align-items:center;gap:8px;
+  }
+  .kpi-foot::before{
+    content:"";
+    width:6px;height:6px;
+    background:var(--gold);
+    border-radius:50%;
+  }
+
+  /* ===================== SECTION HEADERS ===================== */
+  .section-head{
+    margin-top:52px;
+    margin-bottom:22px;
+    display:flex;align-items:center;gap:18px;
+  }
+  .section-head .rule{
+    flex:1;
+    height:1px;
+    background:linear-gradient(90deg, var(--line-strong), transparent);
+  }
+  .section-head .rule.right{
+    background:linear-gradient(-90deg, var(--line-strong), transparent);
+  }
+  .section-head h2{
+    font-family:'Cairo', sans-serif;
+    font-size:20px;
+    font-weight:800;
+    color:var(--gold-2);
+    letter-spacing:.5px;
+    white-space:nowrap;
+  }
+  .section-head .num{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--ink-3);
+    letter-spacing:.2em;
+    font-weight:500;
+  }
+
+  /* ===================== PANELS ===================== */
+  .panel{
+    border:1px solid var(--line-strong);
+    background:linear-gradient(180deg, rgba(18,24,38,.65), rgba(12,17,25,.8));
+    padding:26px 28px;
+    position:relative;
+  }
+  .panel-title{
+    font-family:'Cairo', sans-serif;
+    font-size:16px;
+    font-weight:800;
+    color:var(--ink);
+    letter-spacing:.3px;
+    margin-bottom:4px;
+  }
+  .panel-sub{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:14px;
+    color:var(--ink-3);
+    margin-bottom:24px;
+    letter-spacing:.3px;
+    font-weight:500;
+  }
+
+  /* ===================== MAIN GRID (Bar chart + Donut) ===================== */
+  .main-grid{
+    display:grid;
+    grid-template-columns:1.15fr 1fr;
+    gap:20px;
+  }
+
+  /* ===================== HORIZONTAL BAR CHART ===================== */
+  .bar-chart{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .bar-row{
+    display:grid;
+    grid-template-columns:170px 1fr 80px;
+    gap:14px;
+    align-items:center;
+    cursor:pointer;
+    padding:6px 0;
+    transition:background .2s;
+    border-radius:2px;
+  }
+  .bar-row:hover{
+    background:rgba(212,176,106,.05);
+  }
+  .bar-label{
+    font-family:'Cairo', sans-serif;
+    font-size:13px;
+    font-weight:700;
+    color:var(--ink);
+    text-align:right;
+    padding-right:4px;
+  }
+  .bar-label small{
+    display:block;
+    font-family:'Cairo', sans-serif;
+    font-size:10px;
+    font-weight:500;
+    color:var(--ink-3);
+    margin-top:3px;
+    letter-spacing:.3px;
+  }
+  .bar-track{
+    height:26px;
+    background:rgba(255,255,255,.03);
+    border:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .bar-track::before{
+    content:"";
+    position:absolute;inset:0;
+    background-image:repeating-linear-gradient(
+      90deg, transparent 0, transparent 19px,
+      rgba(255,255,255,.04) 19px, rgba(255,255,255,.04) 20px
+    );
+  }
+  .bar-fill{
+    position:absolute;
+    top:0;right:0;bottom:0;
+    width:0;
+    transition:width 1.4s cubic-bezier(.2,.8,.2,1);
+  }
+  .bar-value{
+    text-align:left;
+    font-family:'Cairo', sans-serif;
+    font-size:18px;
+    font-weight:900;
+    color:var(--gold-2);
+  }
+  .bar-value .pct{
+    display:block;
+    font-size:11px;
+    color:var(--ink-3);
+    margin-top:2px;
+    font-weight:600;
+  }
+
+  /* ===================== DONUT ===================== */
+  .donut-wrap{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+    align-items:center;
+  }
+  .donut{
+    position:relative;
+    aspect-ratio:1;
+  }
+  .donut-center{
+    position:absolute;
+    inset:0;
+    display:grid;place-items:center;
+    text-align:center;
+    pointer-events:none;
+  }
+  .donut-center .total{
+    font-family:'Cormorant Garamond', serif;
+    font-size:60px;
+    font-weight:700;
+    color:var(--ink);
+    line-height:1;
+  }
+  .donut-center .label{
+    font-family:'Cairo', sans-serif;
+    font-size:11px;
+    letter-spacing:.3em;
+    color:var(--ink-3);
+    margin-top:8px;
+    text-transform:uppercase;
+    font-weight:600;
+  }
+  #donutSvg circle.seg{
+    cursor:pointer;
+    transition:stroke-width .3s;
+  }
+  #donutSvg circle.seg:hover{
+    stroke-width:26;
+  }
+
+  .legend{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .legend-item{
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    gap:10px;
+    align-items:center;
+    padding:9px 12px;
+    border:1px solid var(--line);
+    transition:border-color .2s, background .2s;
+    cursor:pointer;
+    border-radius:2px;
+  }
+  .legend-item:hover{
+    border-color:var(--gold);
+    background:rgba(212,176,106,.05);
+  }
+  .legend-swatch{
+    width:12px;height:12px;
+    border-radius:2px;
+  }
+  .legend-name{
+    font-family:'Cairo', sans-serif;
+    font-size:12px;
+    font-weight:600;
+    color:var(--ink-2);
+  }
+  .legend-value{
+    font-family:'Cairo', sans-serif;
+    font-size:13px;
+    color:var(--gold-2);
+    font-weight:800;
+  }
+
+  /* ===================== COST/TIME ANALYSIS GRID ===================== */
+  .analysis-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  .stat-pair{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    margin-bottom:18px;
+  }
+  .stat-pill{
+    padding:14px 18px;
+    border:1px solid var(--line-strong);
+    background:rgba(255,255,255,.025);
+    text-align:center;
+    border-radius:2px;
+  }
+  .stat-pill .l{
+    font-family:'Cairo',sans-serif;
+    font-size:11px;
+    color:var(--ink-3);
+    letter-spacing:.3px;
+    font-weight:600;
+    margin-bottom:4px;
+  }
+  .stat-pill .v{
+    font-family:'Cormorant Garamond',serif;
+    font-size:30px;
+    color:var(--gold-2);
+    font-weight:700;
+    line-height:1;
+  }
+  .stat-pill .v .unit{
+    font-family:'Cairo',sans-serif;
+    font-size:13px;
+    color:var(--ink-2);
+    margin-right:4px;
+    font-weight:600;
+  }
+
+  /* Cost bar list */
+  .cost-list, .time-list{
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+    margin-top:14px;
+  }
+  .cost-row, .time-row{
+    display:grid;
+    grid-template-columns:90px 1fr 100px;
+    gap:12px;
+    align-items:center;
+    padding:6px 0;
+    cursor:pointer;
+    transition:background .2s;
+    border-radius:2px;
+  }
+  .cost-row:hover, .time-row:hover{
+    background:rgba(212,176,106,.05);
+  }
+  .cost-label{
+    font-family:'Cairo',sans-serif;
+    font-size:12px;
+    font-weight:700;
+    color:var(--ink);
+    text-align:right;
+  }
+  .cost-track, .time-track{
+    height:18px;
+    background:rgba(255,255,255,.03);
+    border:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .cost-fill{
+    position:absolute;
+    top:0;right:0;bottom:0;
+    background:linear-gradient(270deg, var(--gold-2), var(--gold));
+    width:0;
+    transition:width 1.4s cubic-bezier(.2,.8,.2,1);
+  }
+  .time-fill{
+    position:absolute;
+    top:0;right:0;bottom:0;
+    background:linear-gradient(270deg, var(--accent), var(--accent-2));
+    width:0;
+    transition:width 1.4s cubic-bezier(.2,.8,.2,1);
+  }
+  .cost-value{
+    font-family:'Cairo',sans-serif;
+    font-size:13px;
+    font-weight:800;
+    color:var(--gold-2);
+    text-align:left;
+  }
+  .cost-value small{
+    display:block;
+    font-size:10px;
+    color:var(--ink-3);
+    font-weight:500;
+  }
+  .time-value{
+    font-family:'Cairo',sans-serif;
+    font-size:13px;
+    font-weight:800;
+    color:var(--accent);
+    text-align:left;
+  }
+  .time-value small{
+    display:block;
+    font-size:10px;
+    color:var(--ink-3);
+    font-weight:500;
+  }
+
+  /* ===================== GOALS DETAIL CARDS ===================== */
+  .goals-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:18px;
+    margin-top:24px;
+  }
+  .goal-card{
+    border:1px solid var(--line-strong);
+    background:linear-gradient(180deg, rgba(18,24,38,.65), rgba(10,14,22,.85));
+    padding:24px 26px;
+    position:relative;
+    overflow:hidden;
+    transition:transform .3s, border-color .3s, box-shadow .3s;
+    cursor:pointer;
+  }
+  .goal-card:hover{
+    transform:translateY(-3px);
+    border-color:var(--gold);
+    box-shadow:0 25px 50px -25px rgba(212,176,106,.4);
+  }
+  .goal-card::before{
+    content:"";
+    position:absolute;
+    top:0;right:0;
+    width:120px;height:120px;
+    background:radial-gradient(circle at top right, rgba(212,176,106,.15), transparent 70%);
+    pointer-events:none;
+  }
+  .goal-card .corner-num{
+    position:absolute;
+    top:16px;left:20px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:12px;
+    color:var(--ink-3);
+    letter-spacing:.3em;
+    font-weight:600;
+  }
+  .goal-num-row{
+    display:flex;align-items:flex-end;justify-content:space-between;
+    margin-bottom:14px;
+    padding-bottom:14px;
+    border-bottom:1px dashed var(--line-strong);
+  }
+  .goal-roman{
+    font-family:'Cormorant Garamond', serif;
+    font-size:48px;
+    font-weight:700;
+    color:var(--gold-2);
+    line-height:.85;
+    letter-spacing:1px;
+    text-shadow:0 0 30px rgba(212,176,106,.3);
+  }
+  .goal-roman small{
+    display:block;
+    font-size:11px;
+    font-family:'Cairo', sans-serif;
+    color:var(--ink-3);
+    margin-top:4px;
+    letter-spacing:.3em;
+    font-weight:600;
+  }
+  .goal-stats{
+    display:flex;
+    gap:16px;
+    text-align:center;
+  }
+  .goal-stat{
+    border-right:1px solid var(--line-strong);
+    padding-right:14px;
+  }
+  .goal-stat:last-child{border-right:none;padding-right:0}
+  .goal-stat .v{
+    font-family:'Cormorant Garamond', serif;
+    font-size:26px;
+    font-weight:700;
+    color:var(--ink);
+    line-height:1;
+  }
+  .goal-stat .l{
+    font-family:'Cairo', sans-serif;
+    font-size:9px;
+    letter-spacing:.25em;
+    color:var(--ink-3);
+    margin-top:5px;
+    text-transform:uppercase;
+    font-weight:600;
+  }
+  .goal-title{
+    font-family:'Cairo', sans-serif;
+    font-size:15px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:14px;
+    line-height:1.6;
+    letter-spacing:.2px;
+  }
+
+  .progress-row{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:12px;
+    align-items:center;
+    margin-top:8px;
+  }
+  .progress-track{
+    height:8px;
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .progress-fill{
+    position:absolute;
+    top:0;right:0;bottom:0;
+    background:linear-gradient(270deg, var(--gold-2), var(--gold));
+    width:0;
+    transition:width 1.6s cubic-bezier(.2,.8,.2,1);
+  }
+  .progress-pct{
+    font-family:'Cairo', sans-serif;
+    font-size:12px;
+    color:var(--gold-2);
+    font-weight:800;
+    min-width:60px;
+    text-align:left;
+  }
+
+  .objectives-list{
+    margin-top:18px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    max-height:240px;
+    overflow-y:auto;
+  }
+  .objectives-list::-webkit-scrollbar{width:4px}
+  .objectives-list::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+  .objectives-list::-webkit-scrollbar-track{background:rgba(255,255,255,.02)}
+
+  .obj-item{
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    gap:10px;
+    align-items:center;
+    font-size:12px;
+    color:var(--ink-2);
+    padding:6px 4px;
+    border-radius:2px;
+    transition:background .2s;
+  }
+  .obj-item:hover{
+    background:rgba(212,176,106,.05);
+  }
+  .obj-marker{
+    color:var(--gold);
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    width:22px;
+    font-weight:600;
+  }
+  .obj-text{
+    font-family:'Cairo', sans-serif;
+    font-weight:500;
+    line-height:1.4;
+    color:var(--ink-2);
+  }
+  .obj-count{
+    font-family:'Cairo', sans-serif;
+    font-size:11px;
+    color:var(--gold-2);
+    background:rgba(212,176,106,.1);
+    border:1px solid rgba(212,176,106,.25);
+    padding:3px 9px;
+    min-width:34px;
+    text-align:center;
+    font-weight:800;
+  }
+
+  /* ===================== TIMELINE PANEL ===================== */
+  .timeline-panel{
+    border:1px solid var(--line-strong);
+    background:linear-gradient(180deg, rgba(18,24,38,.6), rgba(12,17,25,.8));
+    padding:28px 30px;
+  }
+  .timeline-grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:16px;
+    margin-top:20px;
+  }
+  .period-card{
+    border:1px solid var(--line-strong);
+    padding:20px 18px;
+    background:linear-gradient(180deg, rgba(26,34,51,.5), rgba(12,17,25,.7));
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    transition:all .3s;
+    border-radius:2px;
+  }
+  .period-card:hover{
+    transform:translateY(-3px);
+    border-color:var(--accent);
+    box-shadow:0 20px 40px -25px rgba(126,182,255,.4);
+  }
+  .period-card::before{
+    content:"";
+    position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg, var(--accent-2), var(--accent), var(--accent-2));
+  }
+  .period-num{
+    font-family:'Cormorant Garamond', serif;
+    font-size:14px;
+    color:var(--ink-3);
+    letter-spacing:.3em;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .period-years{
+    font-family:'Cairo', sans-serif;
+    font-size:18px;
+    font-weight:800;
+    color:var(--accent);
+    margin-bottom:14px;
+  }
+  .period-count{
+    font-family:'Cormorant Garamond', serif;
+    font-size:42px;
+    font-weight:700;
+    color:var(--ink);
+    line-height:1;
+  }
+  .period-count small{
+    display:block;
+    font-family:'Cairo', sans-serif;
+    font-size:11px;
+    color:var(--ink-2);
+    margin-top:6px;
+    font-weight:600;
+    letter-spacing:.2px;
+  }
+  .period-bar{
+    margin-top:12px;
+    height:5px;
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .period-bar-fill{
+    position:absolute;top:0;right:0;bottom:0;
+    background:linear-gradient(270deg, var(--accent), var(--accent-2));
+    width:0;
+    transition:width 1.4s cubic-bezier(.2,.8,.2,1);
+  }
+
+  /* ===================== INDICATORS PANEL ===================== */
+  .indicators-panel{
+    border:1px solid var(--line-strong);
+    background:linear-gradient(180deg, rgba(18,24,38,.6), rgba(12,17,25,.8));
+    padding:28px 30px;
+    margin-top:24px;
+  }
+  .indicators-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:14px;
+    margin-top:18px;
+  }
+  .indicator-card{
+    padding:18px 18px 16px;
+    border:1px solid var(--line-strong);
+    background:rgba(255,255,255,.022);
+    border-radius:2px;
+    transition:border-color .3s;
+    border-right:3px solid var(--green);
+  }
+  .indicator-card:hover{
+    border-color:var(--green);
+  }
+  .indicator-card.gold{border-right-color:var(--gold)}
+  .indicator-card.purple{border-right-color:var(--purple)}
+  .indicator-card.teal{border-right-color:var(--teal)}
+  .indicator-card.amber{border-right-color:var(--amber)}
+  .indicator-card.rose{border-right-color:var(--rose)}
+
+  .indicator-icon{
+    font-size:22px;
+    margin-bottom:8px;
+    color:var(--gold);
+  }
+  .indicator-card .v{
+    font-family:'Cormorant Garamond',serif;
+    font-size:34px;
+    font-weight:700;
+    color:var(--ink);
+    line-height:1;
+  }
+  .indicator-card .l{
+    font-family:'Cairo',sans-serif;
+    font-size:12px;
+    color:var(--ink-2);
+    margin-top:8px;
+    font-weight:600;
+    line-height:1.4;
+  }
+
+  /* ===================== MODAL ===================== */
+  .modal-backdrop{
+    position:fixed;inset:0;
+    background:rgba(7,10,16,.85);
+    backdrop-filter:blur(8px);
+    display:none;
+    align-items:center;justify-content:center;
+    z-index:100;
+    padding:20px;
+  }
+  .modal-backdrop.active{display:flex}
+  .modal{
+    background:linear-gradient(180deg, var(--bg-2), var(--bg-1));
+    border:1px solid var(--gold);
+    max-width:900px;
+    width:100%;
+    max-height:90vh;
+    overflow-y:auto;
+    padding:32px 36px;
+    position:relative;
+    box-shadow:0 40px 80px -20px rgba(0,0,0,.8), 0 0 0 1px rgba(212,176,106,.2);
+  }
+  .modal::before{
+    content:"";
+    position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg, transparent, var(--gold) 50%, transparent);
+  }
+  .modal-close{
+    position:absolute;top:16px;left:16px;
+    width:36px;height:36px;
+    background:transparent;
+    border:1px solid var(--line-strong);
+    color:var(--ink);
+    cursor:pointer;
+    font-size:20px;
+    display:grid;place-items:center;
+    transition:all .2s;
+    font-family:'Cairo',sans-serif;
+  }
+  .modal-close:hover{
+    border-color:var(--gold);
+    color:var(--gold-2);
+    transform:rotate(90deg);
+  }
+  .modal-eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:.4em;
+    color:var(--gold);
+    text-transform:uppercase;
+    font-weight:500;
+    margin-bottom:8px;
+  }
+  .modal-title{
+    font-family:'Cairo',sans-serif;
+    font-size:24px;
+    font-weight:800;
+    color:var(--ink);
+    margin-bottom:6px;
+    line-height:1.4;
+  }
+  .modal-sub{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:14px;
+    color:var(--ink-3);
+    margin-bottom:24px;
+    font-weight:600;
+  }
+
+  .modal-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:24px;
+    padding:18px;
+    border:1px solid var(--line-strong);
+    background:rgba(255,255,255,.02);
+  }
+  .modal-stat{
+    text-align:center;
+  }
+  .modal-stat .v{
+    font-family:'Cormorant Garamond',serif;
+    font-size:30px;
+    color:var(--gold-2);
+    font-weight:700;
+    line-height:1;
+  }
+  .modal-stat .l{
+    font-family:'Cairo',sans-serif;
+    font-size:11px;
+    color:var(--ink-3);
+    margin-top:6px;
+    font-weight:600;
+    letter-spacing:.3px;
+  }
+
+  .activities-table{
+    width:100%;
+    border-collapse:collapse;
+    font-family:'Cairo',sans-serif;
+    font-size:12px;
+  }
+  .activities-table th{
+    background:linear-gradient(180deg, rgba(212,176,106,.18), rgba(212,176,106,.08));
+    color:var(--gold-2);
+    padding:12px 10px;
+    text-align:right;
+    font-weight:800;
+    font-size:11px;
+    letter-spacing:.3px;
+    border:1px solid var(--line-strong);
+  }
+  .activities-table td{
+    padding:11px 10px;
+    border:1px solid var(--line);
+    color:var(--ink-2);
+    line-height:1.5;
+    vertical-align:top;
+    font-weight:500;
+  }
+  .activities-table tr:hover td{
+    background:rgba(212,176,106,.05);
+    color:var(--ink);
+  }
+  .activities-table .num{
+    text-align:center;
+    font-family:'JetBrains Mono',monospace;
+    color:var(--gold-2);
+    font-weight:600;
+    width:40px;
+  }
+  .activities-table .cost-cell{
+    font-family:'Cairo',sans-serif;
+    font-weight:700;
+    color:var(--gold-2);
+    white-space:nowrap;
+  }
+  .activities-table .time-cell{
+    color:var(--accent);
+    font-weight:600;
+    white-space:nowrap;
+  }
+  .activities-table .indicator-cell{
+    color:var(--green);
+    font-weight:500;
+    font-size:11px;
+  }
+  .activities-table .activity-cell{
+    color:var(--ink);
+    font-weight:600;
+  }
+
+  /* ===================== FOOTER ===================== */
+  .foot{
+    margin-top:60px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:'Cairo', sans-serif;
+    font-size:11px;
+    color:var(--ink-3);
+    letter-spacing:.2em;
+    font-weight:600;
+  }
+  .foot .ornament-foot{
+    color:var(--gold);
+    letter-spacing:.5em;
+  }
+
+  @media (max-width: 1100px){
+    .main-grid, .analysis-grid{grid-template-columns:1fr}
+    .goals-grid{grid-template-columns:1fr}
+    .kpi-row{grid-template-columns:repeat(2,1fr)}
+    .timeline-grid{grid-template-columns:repeat(2,1fr)}
+    .indicators-grid{grid-template-columns:repeat(2,1fr)}
+    .crest{grid-template-columns:1fr;text-align:center;justify-items:center}
+    .wrap{padding:20px}
+    .modal-stats{grid-template-columns:repeat(2,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="crest">
+    <div class="logo-cairo">
+      <img src="data:image/jpeg;base64,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" alt="جامعة القاهرة" />
+    </div>
+
+    <div class="crest-title">
+      <div class="eyebrow">Cairo University · Faculty of Urban &amp; Regional Planning</div>
+      <div class="institution">كلية التخطيط الإقليمي والعمراني — جامعة القاهرة</div>
+      <div class="division">وحدة ضمان الجودة · المتابعة التنفيذية للخطة الاستراتيجية</div>
+      <div class="ornament">
+        <span></span>❖<span></span>
+      </div>
+    </div>
+
+    <div class="logo-furp">
+      <img src="data:image/jpeg;base64,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" alt="FURP" />
+    </div>
+  </header>
+
+  <!-- ===================== TITLE STRIP ===================== -->
+  <div class="title-strip">
+    <h1>لوحة قيادة الخطة التنفيذية</h1>
+    <div class="sub">— Executive Plan Command Center · 2025 — 2030 —</div>
+  </div>
+
+  <!-- ===================== KPI ROW ===================== -->
+  <div class="kpi-row">
+    <div class="kpi" id="kpi-goals">
+      <div class="kpi-label">الغايات الاستراتيجية</div>
+      <div class="kpi-value">08</div>
+      <div class="kpi-foot">إطار الخطة الكلي</div>
+    </div>
+    <div class="kpi" id="kpi-objectives">
+      <div class="kpi-label">الأهداف التنفيذية</div>
+      <div class="kpi-value">44</div>
+      <div class="kpi-foot">موزعة على الغايات الثماني</div>
+    </div>
+    <div class="kpi" id="kpi-activities">
+      <div class="kpi-label">الأنشطة التنفيذية</div>
+      <div class="kpi-value">148</div>
+      <div class="kpi-foot">إجمالي الأنشطة المخططة</div>
+    </div>
+    <div class="kpi" id="kpi-time">
+      <div class="kpi-label">المدى الزمني</div>
+      <div class="kpi-value">05<span class="pct">فترات</span></div>
+      <div class="kpi-foot">من 2025 إلى 2030 · 5 سنوات</div>
+    </div>
+  </div>
+
+  <!-- ===================== SECTION I: Distribution ===================== -->
+  <div class="section-head">
+    <div class="rule"></div>
+    <span class="num">/ 01</span>
+    <h2>التوزيع الإجمالي للأنشطة على الغايات</h2>
+    <span class="num">·</span>
+    <div class="rule right"></div>
+  </div>
+
+  <div class="main-grid">
+    <div class="panel">
+      <div class="panel-title">عدد الأنشطة لكل غاية ونسبتها من الإجمالي</div>
+      <div class="panel-sub">Activities per Strategic Goal — share of the total 148 · click for details</div>
+      <div class="bar-chart" id="barChart"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">التوزيع النسبي للأنشطة</div>
+      <div class="panel-sub">Proportional distribution — click any segment for details</div>
+      <div class="donut-wrap">
+        <div class="donut">
+          <svg viewBox="0 0 200 200" id="donutSvg" style="width:100%;height:100%;transform:rotate(-90deg)">
+            <circle cx="100" cy="100" r="78" fill="none" stroke="rgba(255,255,255,.04)" stroke-width="20"/>
+          </svg>
+          <div class="donut-center">
+            <div class="total">148</div>
+            <div class="label">Total Activities</div>
+          </div>
+        </div>
+        <div class="legend" id="legend"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SECTION II: TIMELINE ===================== -->
+  <div class="section-head">
+    <div class="rule"></div>
+    <span class="num">/ 02</span>
+    <h2>التحليل الزمني — توزيع الأنشطة على فترات الخطة الخمسة</h2>
+    <span class="num">·</span>
+    <div class="rule right"></div>
+  </div>
+
+  <div class="timeline-panel">
+    <div class="panel-title">عدد الأنشطة المنفذة في كل فترة من فترات الخطة الخمس</div>
+    <div class="panel-sub">Active activities per period — click any period to see details</div>
+    <div class="timeline-grid" id="timelineGrid"></div>
+  </div>
+
+  <!-- ===================== SECTION III: COST ANALYSIS ===================== -->
+  <div class="section-head">
+    <div class="rule"></div>
+    <span class="num">/ 03</span>
+    <h2>التحليل المالي — التكلفة التقديرية للخطة</h2>
+    <span class="num">·</span>
+    <div class="rule right"></div>
+  </div>
+
+  <div class="analysis-grid">
+    <div class="panel">
+      <div class="panel-title">إجمالي التكلفة موزعة على الغايات</div>
+      <div class="panel-sub">Total estimated budget distribution by goal · in EGP</div>
+
+      <div class="stat-pair">
+        <div class="stat-pill">
+          <div class="l">إجمالي التكلفة</div>
+          <div class="v">2.36<span class="unit">مليون ج.م</span></div>
+        </div>
+        <div class="stat-pill">
+          <div class="l">الأنشطة الممولة</div>
+          <div class="v">21<span class="unit">من 148</span></div>
+        </div>
+      </div>
+
+      <div class="cost-list" id="costList"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">أعلى الأنشطة تكلفة في الخطة</div>
+      <div class="panel-sub">Top funded activities · top 8 by cost</div>
+
+      <div class="stat-pair">
+        <div class="stat-pill">
+          <div class="l">متوسط تكلفة النشاط الممول</div>
+          <div class="v">112<span class="unit">ألف ج.م</span></div>
+        </div>
+        <div class="stat-pill">
+          <div class="l">أعلى تكلفة منفردة</div>
+          <div class="v">500<span class="unit">ألف ج.م</span></div>
+        </div>
+      </div>
+
+      <div class="cost-list" id="topCostList"></div>
+    </div>
+  </div>
+
+  <!-- ===================== SECTION IV: VISION, MISSION, LOGO ===================== -->
+  <div class="section-head">
+    <div class="rule"></div>
+    <span class="num">/ 04</span>
+    <h2>رؤية الكلية ورسالتها ومدلول الرمز</h2>
+    <span class="num">·</span>
+    <div class="rule right"></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;">
+
+    <!-- Vision Panel -->
+    <div class="panel" style="border-top:3px solid var(--gold);position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold-deep),var(--gold-2),var(--gold-deep));"></div>
+      <div class="panel-title" style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+        <span style="font-size:22px;">🔭</span>
+        <span>رؤية كلية التخطيط الإقليمي والعمراني</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.3em;margin-right:auto;">Vision</span>
+      </div>
+      <p style="font-family:'Cairo',sans-serif;font-size:15px;line-height:2;color:var(--ink-2);text-align:justify;padding:16px;background:rgba(212,176,106,.05);border:1px solid rgba(212,176,106,.15);border-radius:2px;">
+        كلية التخطيط الإقليمي والعمراني مدرسة علمية تحقق الريادة في مجالات التخطيط العمراني على المستويات المحلية والإقليمية والوصول إلى التميز على المستوى الدولي في برامج ومناهج تعليم التخطيط العمراني لدرجات البكالوريوس والدراسات العليا وتطوير البحوث النظرية والتطبيقية بهدف المساهمة الإيجابية في مشروعات التنمية المجتمعية وحل مشكلات التخطيط والتنمية المستدامة في المنطقة العربية.
+      </p>
+    </div>
+
+    <!-- Mission Panel -->
+    <div class="panel" style="border-top:3px solid var(--accent);position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent-2),var(--accent),var(--accent-2));"></div>
+      <div class="panel-title" style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+        <span style="font-size:22px;">🎯</span>
+        <span>رسالة كلية التخطيط الإقليمي والعمراني</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:.3em;margin-right:auto;">Mission</span>
+      </div>
+      <p style="font-family:'Cairo',sans-serif;font-size:15px;line-height:2;color:var(--ink-2);text-align:justify;padding:16px;background:rgba(126,182,255,.05);border:1px solid rgba(126,182,255,.15);border-radius:2px;">
+        إعداد مخطط ومصمم عمراني قادر على فهم وحل مشكلات التفاعل بين المجتمع وبيئته العمرانية في ضوء المتغيرات الاقتصادية والسياسية والاجتماعية والبيئية ورفع كفاءة الدراسات والبحوث النظرية والتطبيقية وتلبية احتياجات المجتمع وتحقيق منهج علمي قادر على المنافسة المحلية والعربية والإقليمية في إطار تطوير مستمر لأداء العملية التعليمية لمرحلتي البكالوريوس والدراسات العليا باستخدام نظم تكنولوجيا المعلومات المواكبة لمتطلبات القرن الواحد والعشرين وفي إطار الأعراف الجامعية والمجتمعية السائدة.
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Logo Meaning Panel -->
+  <div class="panel" style="border-top:3px solid var(--green);margin-bottom:0;">
+    <div class="panel-title" style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+      <span style="font-size:22px;">🏛️</span>
+      <span>مدلول الرمز — شعار الكلية</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);letter-spacing:.3em;margin-right:auto;">Logo</span>
+    </div>
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;">
+      <div style="width:120px;height:120px;background:#fff;display:flex;align-items:center;justify-content:center;border:1px solid var(--gold);padding:10px;flex-shrink:0;">
+        <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCASwBLADASIAAhEBAxEB/8QAHQABAAMAAgMBAAAAAAAAAAAAAAcICQUGAgMEAf/EAFUQAQABAwICBAcJDAgFAwIHAAABAgMEBQYHEQgSITETGEFRV2HTCRQiOHF0gZW0FSMyQkdSYoWRkqHEFhczVnKUsdEkQ2OCojRzsoPCJYSTo6TBw//EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwC5YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA9FNq/GVVcnKqqszH9lNEdk+qfN6v4veAPGjr8p68xM855co8nPseQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB81nPwr2ffwLOTbuZOPFM3rdM85t9aOcdbzTMdvLzPpAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB6rGPYsTcmzaoom5XNdyaY5TVVPlnzy9oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//Z" alt="شعار الكلية" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'font-family:JetBrains Mono,monospace;font-size:28px;font-weight:700;color:#000;letter-spacing:-2px;\'>URP</div>';" />
+      </div>
+      <p style="font-family:'Cairo',sans-serif;font-size:15px;line-height:2.2;color:var(--ink-2);text-align:justify;padding:16px;background:rgba(95,197,146,.05);border:1px solid rgba(95,197,146,.15);border-radius:2px;">
+        يمثل شعار كلية التخطيط الإقليمي والعمراني الحروف الأولى من اسمها باللغة الإنجليزية <strong style="color:var(--green);font-family:'JetBrains Mono',monospace;">(Urban and Regional Planning - URP)</strong> مع تداخل هذه الحروف الصغيرة لتعطي تشكيلاً صغيراً كنواة لبعض عناصر التخطيط.
+      </p>
+    </div>
+  </div>
+
+  <!-- ===================== SECTION V: GOALS DETAIL ===================== -->
+  <div class="section-head">
+    <div class="rule"></div>
+    <span class="num">/ 05</span>
+    <h2>التفصيل الكامل حسب الغايات الثماني</h2>
+    <span class="num">·</span>
+    <div class="rule right"></div>
+  </div>
+
+  <div class="goals-grid" id="goalsGrid"></div>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="foot">
+    <div>QUALITY ASSURANCE UNIT · CAIRO UNIVERSITY · FURP</div>
+    <div class="ornament-foot">❖ ❖ ❖</div>
+    <div>EXECUTIVE PLAN · 2025 — 2030</div>
+  </footer>
+
+</div>
+
+<!-- ===================== MODAL ===================== -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal" id="modalContent">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const PLAN_DATA = {
+  "1": {
+    "title": "التحول نحو كلية ذكية منتجة مستدامة",
+    "activities": [
+      {
+        "obj": 1,
+        "act": "إنشاء نظام إدارة بيانات مؤسسية",
+        "time": "2025/2028",
+        "cost": 50000,
+        "period": [
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        "indicator": "تقرير دوري نصف سنوي عن كفاءة قاعدة البيانات"
+      },
+      {
+        "obj": 1,
+        "act": "تحديث الموقع الرسمي للكلية بشكل دوري",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تحديث دوري للموقع"
+      },
+      {
+        "obj": 1,
+        "act": "تطوير الموقع الإلكتروني إلى بوابة ذكية Smart Portal",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "خدمات ذكية متكاملة"
+      },
+      {
+        "obj": 2,
+        "act": "إنشاء قاعدة بيانات تخصصية لكل قسم",
+        "time": "2025/2028",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        "indicator": "تقارير فصلية لتحديث البيانات"
+      },
+      {
+        "obj": 2,
+        "act": "إنشاء مكتبة إلكترونية للمشروعات والأبحاث",
+        "time": "2025/2029",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "indicator": "إطلاق منصة رقمية للأبحاث"
+      },
+      {
+        "obj": 3,
+        "act": "عمل استمارات متابعة العملية التعليمية شهرياً",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير شهرية للحضور والانضباط"
+      },
+      {
+        "obj": 3,
+        "act": "عمل استبيانات Google Forms للتقييم",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير تحليل دورية"
+      },
+      {
+        "obj": 3,
+        "act": "تحديث استراتيجية التدريس والتعلم والتقويم",
+        "time": "2025/2027",
+        "cost": 150000,
+        "period": [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "indicator": "اعتماد الاستراتيجية من مجلس الكلية"
+      },
+      {
+        "obj": 3,
+        "act": "آلية للترويج عبر مواقع التواصل الاجتماعي",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "زيادة المتابعين والتفاعل"
+      },
+      {
+        "obj": 3,
+        "act": "خطط تحسين وفقاً لتقارير المراجعات",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير متابعة دورية لخطط التحسين"
+      },
+      {
+        "obj": 3,
+        "act": "متابعة تنفيذ خطط التحسين",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير ربع سنوية"
+      },
+      {
+        "obj": 4,
+        "act": "خطة تدريبية على التحول الرقمي للإداريين",
+        "time": "2025/2030",
+        "cost": 70000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "نسب رضا الإداريين"
+      },
+      {
+        "obj": 4,
+        "act": "تدريب مديري الإدارات",
+        "time": "سنوياً",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقييم مستوى الأداء"
+      },
+      {
+        "obj": 4,
+        "act": "تدريب على إدارة الطوارئ والأزمات",
+        "time": "سنوياً",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "محاكاة وسيناريوهات الطوارئ"
+      },
+      {
+        "obj": 4,
+        "act": "تدريب على مهارات الحاسب الآلي",
+        "time": "سنوياً",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير تقييم المهارات الرقمية"
+      },
+      {
+        "obj": 4,
+        "act": "تدريب أخصائي الدراسات العليا",
+        "time": "سنوياً",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير رضا الطلاب"
+      },
+      {
+        "obj": 4,
+        "act": "تدريب في إجراءات شئون العاملين",
+        "time": "سنوياً",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقليل زمن المعاملات"
+      },
+      {
+        "obj": 4,
+        "act": "تدريب في التأمين الاجتماعي",
+        "time": "سنوياً",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير الأداء الوظيفي"
+      },
+      {
+        "obj": 4,
+        "act": "كتيب التوصيف الوظيفي",
+        "time": "2025/2027",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "indicator": "اعتماد الكتيب من مجلس الكلية"
+      },
+      {
+        "obj": 4,
+        "act": "دورات تدريبية في إدارة نظم الجودة",
+        "time": "سنوياً",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "دورات معتمدة في الجودة"
+      },
+      {
+        "obj": 5,
+        "act": "ندوات عن المدن الذكية والتنمية المستدامة",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "ندوات ومؤتمرات دورية"
+      },
+      {
+        "obj": 5,
+        "act": "ملف إلكتروني للمشروعات المتميزة",
+        "time": "2025/2028",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        "indicator": "تقارير بالمشروعات المنشورة"
+      },
+      {
+        "obj": 5,
+        "act": "مشروعات دراسية مرتبطة بمشكلات حقيقية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "ورش عمل ميدانية"
+      },
+      {
+        "obj": 5,
+        "act": "نشر مواد تعليمية رقمية ومحاضرات مسجلة",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير المشاهدات"
+      },
+      {
+        "obj": 5,
+        "act": "مسابقات للابتكار الرقمي",
+        "time": "سنوياً",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "زيادة المشاركين والمشروعات"
+      },
+      {
+        "obj": 5,
+        "act": "البرنامج الخاص للمدن الخضراء",
+        "time": "2026/2030",
+        "cost": 35000,
+        "period": [
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "اعتماد البرنامج أكاديمياً"
+      }
+    ]
+  },
+  "2": {
+    "title": "رفع كفاءة الفاعلية التعليمية واعتماد التعليم الهجين",
+    "activities": [
+      {
+        "obj": 1,
+        "act": "تطوير لائحة البكالوريوس والدراسات العليا",
+        "time": "2025/2027",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "indicator": "اعتماد اللائحة بمجلس الكلية والجامعة"
+      },
+      {
+        "obj": 1,
+        "act": "تعديل عدد برامج الدراسات العليا",
+        "time": "2026/2029",
+        "cost": 0,
+        "period": [
+          0,
+          1,
+          1,
+          1,
+          0
+        ],
+        "indicator": "اعتماد برامج جديدة"
+      },
+      {
+        "obj": 1,
+        "act": "تحديث مصفوفة العلاقة بين أهداف البرنامج ومواصفات الخريج",
+        "time": "سنويًا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "اعتماد المصفوفة"
+      },
+      {
+        "obj": 1,
+        "act": "تحديث تقارير وتوصيفات المقررات الدراسية",
+        "time": "سنويًا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "اعتماد التوصيفات"
+      },
+      {
+        "obj": 1,
+        "act": "خطاب لرؤساء الأقسام لتوزيع الدرجات وفق اللائحة",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "توحيد معايير التقويم"
+      },
+      {
+        "obj": 1,
+        "act": "تطوير برامج تعليمية متخصصة",
+        "time": "2026/2030",
+        "cost": 0,
+        "period": [
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "معدلات الالتحاق"
+      },
+      {
+        "obj": 1,
+        "act": "تحديث محتوى المقررات بالتنمية المستدامة",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "إدراج موضوعات الاستدامة"
+      },
+      {
+        "obj": 2,
+        "act": "اعتماد المعايير الأكاديمية",
+        "time": "2025/2027",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "indicator": "اعتماد المعايير رسمياً"
+      },
+      {
+        "obj": 2,
+        "act": "إعلان مصفوفة المعايير على الموقع",
+        "time": "2025/2026",
+        "cost": 0,
+        "period": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "indicator": "نشر المصفوفة على الموقع"
+      },
+      {
+        "obj": 3,
+        "act": "تطوير خطة التعلم الإلكتروني والمنصة",
+        "time": "2025/2028",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        "indicator": "تشغيل منصة فعالة"
+      },
+      {
+        "obj": 3,
+        "act": "رفع المحاضرات على المنصة",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "نسبة المقررات المرفوعة"
+      },
+      {
+        "obj": 3,
+        "act": "تحليل استمارات متابعة العملية التعليمية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير تحليل دورية"
+      },
+      {
+        "obj": 3,
+        "act": "التسويق لبرامج الدراسات العليا",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "معدلات التقديم"
+      },
+      {
+        "obj": 4,
+        "act": "تطوير المكتبة وربطها بمكتبات أخرى",
+        "time": "2025/2029",
+        "cost": 500000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "indicator": "تطوير نظام البحث"
+      },
+      {
+        "obj": 4,
+        "act": "توفير الموارد التعليمية بالمكتبة",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "زيادة الكتب والمراجع الرقمية"
+      },
+      {
+        "obj": 4,
+        "act": "تحديث المحتوى وفق سوق العمل",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "إشراك جهات سوق العمل"
+      },
+      {
+        "obj": 4,
+        "act": "دعم التدريب الصيفي للطلاب",
+        "time": "سنويًا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "بروتوكولات تعاون"
+      },
+      {
+        "obj": 4,
+        "act": "استضافة متخصصين وخبراء",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "ندوات مع متخصصين"
+      },
+      {
+        "obj": 5,
+        "act": "أدوات قياس رضا الطلاب",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير تحليل النتائج"
+      },
+      {
+        "obj": 5,
+        "act": "معرفة الطلاب بأهداف البرنامج كل فصل",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "رفع الوعي الأكاديمي"
+      },
+      {
+        "obj": 5,
+        "act": "دعم الإرشاد الأكاديمي والساعات المكتبية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "الجداول الموحدة"
+      },
+      {
+        "obj": 5,
+        "act": "لجنة المتعثرين لتقديم الدعم",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير متابعة المتعثرين"
+      },
+      {
+        "obj": 5,
+        "act": "تحديث آلية التدريس والتقييم",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "أساليب تقييم حديثة"
+      },
+      {
+        "obj": 5,
+        "act": "توضيح طرق التقويم في توصيف المقررات",
+        "time": "سنويًا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "ربط التقويم بالمخرجات"
+      },
+      {
+        "obj": 5,
+        "act": "معايير التقييم على لوح الطلبة",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقليل التظلمات"
+      },
+      {
+        "obj": 6,
+        "act": "المقترحات من الطلاب والأطراف المعنية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "حلقات نقاش دورية"
+      },
+      {
+        "obj": 6,
+        "act": "ورش عمل لتطوير اللائحة",
+        "time": "2025/2027",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "indicator": "ورش تشاركية"
+      },
+      {
+        "obj": 7,
+        "act": "مكتبة إلكترونية للمشروعات والخرائط",
+        "time": "2025/2028",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        "indicator": "منصة رقمية للمشروعات"
+      },
+      {
+        "obj": 7,
+        "act": "إعلان مصفوفة المعايير على الموقع",
+        "time": "2025/2030",
+        "cost": 30000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "نشر المصفوفة"
+      },
+      {
+        "obj": 7,
+        "act": "صيانة أجهزة المعامل دورياً",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير صيانة دورية"
+      },
+      {
+        "obj": 7,
+        "act": "تدريب الطلاب على الأجهزة الحديثة",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "دورات تدريبية وورش"
+      }
+    ]
+  },
+  "3": {
+    "title": "تطوير ودعم البحث العلمي والأنشطة العلمية",
+    "activities": [
+      {
+        "obj": 1,
+        "act": "إعداد الخطة البحثية للكلية (2025-2030)",
+        "time": "2025/2026",
+        "cost": 120000,
+        "period": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "indicator": "اعتماد الخطة البحثية"
+      },
+      {
+        "obj": 1,
+        "act": "خطط دورية لمتابعة تنفيذ الخطة البحثية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير نصف سنوية"
+      },
+      {
+        "obj": 1,
+        "act": "خطة لتحسين جودة المقترحات البحثية",
+        "time": "2025/2027",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "indicator": "اعتماد آلية تقييم المقترحات"
+      },
+      {
+        "obj": 1,
+        "act": "دورات بنك المعرفة عبر Elsevier",
+        "time": "سنويًا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "عرض الدورات بمجلس الكلية"
+      },
+      {
+        "obj": 2,
+        "act": "بروتوكولات تعاون مع جامعات أجنبية",
+        "time": "2026/2030",
+        "cost": 0,
+        "period": [
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "توقيع بروتوكولات دولية"
+      },
+      {
+        "obj": 2,
+        "act": "إشراف مشترك بين الأقسام في الرسائل",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "زيادة الرسائل المشتركة"
+      },
+      {
+        "obj": 2,
+        "act": "دعم مشاركة أعضاء هيئة التدريس بالمؤتمرات",
+        "time": "سنويًا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير عن المشاركات"
+      },
+      {
+        "obj": 2,
+        "act": "اشتراك مع كلية الهندسة بالإشراف البحثي",
+        "time": "2026/2030",
+        "cost": 0,
+        "period": [
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "اتفاقيات تعاون بحثي"
+      },
+      {
+        "obj": 3,
+        "act": "اتفاقيات بين الكلية والجهات البحثية",
+        "time": "2025/2030",
+        "cost": 150000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "بروتوكولات تعاون بحثي"
+      },
+      {
+        "obj": 4,
+        "act": "تحديد الجهات القومية وأجندة علمية",
+        "time": "2025/2028",
+        "cost": 80000,
+        "period": [
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        "indicator": "قاعدة بيانات للجهات الممولة"
+      },
+      {
+        "obj": 4,
+        "act": "ندوات وورش لمناقشة القضايا القومية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "ندوات وورش دورية"
+      },
+      {
+        "obj": 4,
+        "act": "خطة المؤتمرات العلمية السنوية",
+        "time": "2025/2026",
+        "cost": 0,
+        "period": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "indicator": "اعتماد خطة المؤتمرات"
+      },
+      {
+        "obj": 4,
+        "act": "أجندة محدثة مع الجهات القومية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تحديث دوري للأجندة"
+      },
+      {
+        "obj": 5,
+        "act": "تنظيم مؤتمر دولي سنوي",
+        "time": "سنويًا",
+        "cost": 150000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "وحدة المؤتمرات الدولية"
+      },
+      {
+        "obj": 5,
+        "act": "النشر في مجلة Q3 ضمن SCOPUS",
+        "time": "2025/2030",
+        "cost": 20000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "زيادة معدلات النشر"
+      },
+      {
+        "obj": 5,
+        "act": "اتفاقيات تعاون مع كليات القطاع الهندسي",
+        "time": "2026/2030",
+        "cost": 300000,
+        "period": [
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "بروتوكولات تعاون"
+      },
+      {
+        "obj": 5,
+        "act": "التعاون العلمي مع الجامعات الأجنبية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "بعثات علمية وتبادل"
+      },
+      {
+        "obj": 5,
+        "act": "خطة تدريب الباحثين لزيادة معدلات النشر",
+        "time": "سنويًا",
+        "cost": 100000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "دورات في النشر الدولي"
+      },
+      {
+        "obj": 5,
+        "act": "متابعة فرص النشر والمؤتمرات",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "إعلانات بحثية دورية"
+      },
+      {
+        "obj": 6,
+        "act": "ندوات عن أخلاقيات البحث العلمي",
+        "time": "سنويًا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "ندوات توعوية"
+      },
+      {
+        "obj": 6,
+        "act": "متابعة إجراءات الوعي الأخلاقي",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير متابعة دورية"
+      }
+    ]
+  },
+  "4": {
+    "title": "رفع كفاءة المشاركة المجتمعية وتنمية البيئة",
+    "activities": [
+      {
+        "obj": 1,
+        "act": "التقرير السنوي لأنشطة لجنة شئون البيئة",
+        "time": "سنويًا",
+        "cost": 30000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "إصدار التقرير السنوي"
+      },
+      {
+        "obj": 1,
+        "act": "التقرير الدوري لمتابعة أنشطة خدمة المجتمع",
+        "time": "سنويًا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير متابعة دورية"
+      },
+      {
+        "obj": 1,
+        "act": "الوعي بأنشطة خدمة المجتمع",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "حملات توعية"
+      },
+      {
+        "obj": 1,
+        "act": "ندوات وورش عن القضايا القومية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "ندوات دورية"
+      },
+      {
+        "obj": 1,
+        "act": "معارض لمشروعات الطلاب",
+        "time": "سنويًا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "معارض ومشروعات تطبيقية"
+      },
+      {
+        "obj": 2,
+        "act": "وعي متنامي بخدمة المجتمع وتنمية البيئة",
+        "time": "2025/2030",
+        "cost": 120000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "زيادة المشاركين بالأنشطة"
+      },
+      {
+        "obj": 2,
+        "act": "ورش لتحديد احتياجات المجتمع المحيط",
+        "time": "سنويًا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير الاحتياجات"
+      },
+      {
+        "obj": 2,
+        "act": "صالونات وورش ثقافية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "صالونات توعوية"
+      },
+      {
+        "obj": 2,
+        "act": "المشاركة في المبادرات المجتمعية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "شراكات مجتمعية جديدة"
+      },
+      {
+        "obj": 3,
+        "act": "إتاحة المعامل لورش الطلاب والخريجين",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "زيادة الورش التطبيقية"
+      },
+      {
+        "obj": 3,
+        "act": "تدريبات صيفية على GIS وAutoCAD",
+        "time": "سنويًا",
+        "cost": 25000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "شهادات تدريب للطلاب"
+      },
+      {
+        "obj": 4,
+        "act": "تفعيل مركز العمران الأفريقي",
+        "time": "2026/2030",
+        "cost": 0,
+        "period": [
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "مشروعات واستشارات"
+      },
+      {
+        "obj": 4,
+        "act": "المشاركة في المسابقات الدولية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "مراكز وجوائز للطلاب"
+      },
+      {
+        "obj": 4,
+        "act": "ندوات عن التجارب العمرانية الدولية",
+        "time": "سنويًا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "ندوات متخصصة"
+      },
+      {
+        "obj": 5,
+        "act": "مشاركة أعضاء هيئة التدريس بالمراكز البحثية",
+        "time": "2025/2030",
+        "cost": 150000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "حوافز للمتميزين"
+      },
+      {
+        "obj": 5,
+        "act": "دعوة مؤسسات المجتمع المدني",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "مشاركة مؤسسات المجتمع"
+      },
+      {
+        "obj": 5,
+        "act": "بروتوكولات مع مؤسسات المجتمع المدني",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "مشروعات مشتركة"
+      },
+      {
+        "obj": 6,
+        "act": "قياس رضا الطلاب",
+        "time": "دوري كل فصل",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير رضا الطلاب"
+      },
+      {
+        "obj": 6,
+        "act": "قياس رضا أعضاء هيئة التدريس",
+        "time": "دوري كل فصل",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير رضا الأساتذة"
+      },
+      {
+        "obj": 6,
+        "act": "قياس رضا طلاب الدراسات العليا",
+        "time": "دوري كل فصل",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تحسين الخدمات البحثية"
+      },
+      {
+        "obj": 6,
+        "act": "نشر البرامج للطلاب الوافدين",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تحديث المحتوى الإلكتروني"
+      },
+      {
+        "obj": 6,
+        "act": "متابعة أعداد الوافدين سنوياً",
+        "time": "سنويًا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير إحصائية سنوية"
+      }
+    ]
+  },
+  "5": {
+    "title": "رفع القدرة المؤسسية والتنافسية للكلية",
+    "activities": [
+      {
+        "obj": 1,
+        "act": "تطوير الخطة الاستراتيجية للكلية",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "معدلات الإنجاز ربع سنوي"
+      },
+      {
+        "obj": 1,
+        "act": "تقارير لمتابعة تنفيذ الخطة الاستراتيجية",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "معدلات الإنجاز"
+      },
+      {
+        "obj": 2,
+        "act": "تفعيل نظم متابعة الأداء وضمان الجودة",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "آلية تقويم معتمدة"
+      },
+      {
+        "obj": 2,
+        "act": "آلية تعيين القيادات الأكاديمية",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "معايير اختيار معتمدة"
+      },
+      {
+        "obj": 3,
+        "act": "الربط بين الهيكل التنظيمي للكلية والجامعة",
+        "time": "2026",
+        "cost": 0,
+        "period": [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "indicator": "الهيكل المحدث"
+      },
+      {
+        "obj": 3,
+        "act": "متابعة أداء الوحدات الجديدة",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقارير المتابعة"
+      },
+      {
+        "obj": 4,
+        "act": "خطة صيانة دورية للمنشأة",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "خطة الصيانة"
+      },
+      {
+        "obj": 4,
+        "act": "تطوير الخدمات الطبية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "رضا الطلاب الطبية"
+      },
+      {
+        "obj": 5,
+        "act": "ندوات لنشر ثقافة الجودة",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "زيادة المشاركة"
+      },
+      {
+        "obj": 5,
+        "act": "التقارير السنوية لوحدة الجودة",
+        "time": "سنويًا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "توثيق الأنشطة"
+      },
+      {
+        "obj": 5,
+        "act": "تعيين منسقين للجودة بالأقسام",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "منسقون معتمدون"
+      },
+      {
+        "obj": 5,
+        "act": "ورش لمشاركة الأطراف المعنية",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تقييم الأنشطة"
+      },
+      {
+        "obj": 5,
+        "act": "استبيانات رضا الأطراف المجتمعية",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "رضا المجتمع"
+      },
+      {
+        "obj": 5,
+        "act": "مشاركة الطلاب باللجان",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "التكافل والمتعثرين"
+      },
+      {
+        "obj": 6,
+        "act": "دورات لرفع قدرة هيئة التدريس",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "عدد المشتركين"
+      },
+      {
+        "obj": 6,
+        "act": "متابعة رضا هيئة التدريس عن الدورات",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "نسب الرضا"
+      },
+      {
+        "obj": 7,
+        "act": "اتفاقيات مع الجامعات الأجنبية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تبادل علمي"
+      },
+      {
+        "obj": 8,
+        "act": "خطة تدريبية للإداريين",
+        "time": "سنويًا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "رضا الإداريين"
+      },
+      {
+        "obj": 9,
+        "act": "اعتماد معايير اختيار القيادات",
+        "time": "3 شهور",
+        "cost": 100000,
+        "period": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "indicator": "رضا 75% بالأخلاقيات"
+      },
+      {
+        "obj": 9,
+        "act": "شراء النسخ الأصلية من المراجع",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تطوير المقررات"
+      },
+      {
+        "obj": 10,
+        "act": "تفعيل البرنامج الخاص للمدن الخضراء",
+        "time": "2026/2030",
+        "cost": 33000,
+        "period": [
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "زيادة موارد الكلية"
+      }
+    ]
+  },
+  "6": {
+    "title": "دعم الأنشطة الطلابية والتواصل مع الخريجين",
+    "activities": [
+      {
+        "obj": 1,
+        "act": "دورات تدريبية CAD/Photoshop/GIS/3D Max",
+        "time": "دوري",
+        "cost": 20000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "رضا الطلاب"
+      },
+      {
+        "obj": 1,
+        "act": "خطة تدريبية لمتطلبات سوق العمل",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "خطة الدورات"
+      },
+      {
+        "obj": 1,
+        "act": "دعم مشاركة الطلاب بالمشروعات البحثية",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "عدد المشاركين"
+      },
+      {
+        "obj": 2,
+        "act": "برامج للابتكار والتفكير العلمي",
+        "time": "سنوياً",
+        "cost": 10000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "المهارات العلمية"
+      },
+      {
+        "obj": 2,
+        "act": "تطوير برنامج علوم الحاسب",
+        "time": "سنوياً",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "مهارات الخريجين"
+      },
+      {
+        "obj": 2,
+        "act": "تدريبات صيفية مع شركات المقاولات",
+        "time": "سنوياً",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "عدد المتدربين"
+      },
+      {
+        "obj": 2,
+        "act": "دورات مشتركة مع كليات أخرى",
+        "time": "سنوياً",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "رضا الطلاب"
+      },
+      {
+        "obj": 2,
+        "act": "معرض للأعمال المبتكرة",
+        "time": "سنوياً",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "معارض إبداع"
+      },
+      {
+        "obj": 2,
+        "act": "رعاية الطلاب المتميزين",
+        "time": "دوريا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "دعم المتميزين"
+      },
+      {
+        "obj": 2,
+        "act": "مسابقة أفضل مشروع تخرج",
+        "time": "سنوياً",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "جوائز المشروعات"
+      },
+      {
+        "obj": 3,
+        "act": "مقررات ممارسة الأخلاقيات وريادة الأعمال",
+        "time": "سنويا",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "بناء الشخصية"
+      },
+      {
+        "obj": 3,
+        "act": "نظام دعم الطلاب (مادي/اجتماعي/صحي)",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "دعم متكامل"
+      },
+      {
+        "obj": 3,
+        "act": "مسابقات فكرية وثقافية وفنية",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "مسابقات دورية"
+      },
+      {
+        "obj": 3,
+        "act": "تفاعل الطلاب مع الرسائل العلمية",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "حضور الرسائل"
+      },
+      {
+        "obj": 4,
+        "act": "توفير فرص عمل للخريجين",
+        "time": "سنويا",
+        "cost": 20000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "85% فرص عمل"
+      },
+      {
+        "obj": 4,
+        "act": "اتصالات مع الأطراف المجتمعية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "فرص عمل مناسبة"
+      },
+      {
+        "obj": 4,
+        "act": "آلية تقييم أداء الخريجين",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "اعتماد الآلية"
+      },
+      {
+        "obj": 4,
+        "act": "استبيان مع الشركاء المجتمعيين",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "احتياجات السوق"
+      },
+      {
+        "obj": 4,
+        "act": "ربط احتياجات سوق العمل بالبرنامج",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "خطة تسويق الطلبة"
+      },
+      {
+        "obj": 5,
+        "act": "ملتقى توظيف سنوي",
+        "time": "دوري 2025-2030",
+        "cost": 50000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "85% فرص عمل"
+      },
+      {
+        "obj": 5,
+        "act": "تفعيل وحدة الخريجين",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "خطة عمل الوحدة"
+      }
+    ]
+  },
+  "7": {
+    "title": "زيادة عدد الطلبة الوافدين",
+    "activities": [
+      {
+        "obj": 1,
+        "act": "إعداد خطة لجذب الوافدين",
+        "time": "دوري",
+        "cost": 50000,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "زيادة الوافدين"
+      },
+      {
+        "obj": 2,
+        "act": "خطة تدريبية للطلاب",
+        "time": "سنوياً",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "دورات تدريبية"
+      },
+      {
+        "obj": 3,
+        "act": "تفعيل وحدة الخريجين",
+        "time": "دوري",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تفاعل الخريجين"
+      },
+      {
+        "obj": 4,
+        "act": "وحدة جديدة للوافدين",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "زيادة الوافدين"
+      }
+    ]
+  },
+  "8": {
+    "title": "دعم الشراكة بين الكلية والجهات المحلية والعالمية",
+    "activities": [
+      {
+        "obj": 1,
+        "act": "اتفاقيات تعاون علمي مع الجامعات الأجنبية",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "تبادل علمي مشترك"
+      },
+      {
+        "obj": 1,
+        "act": "تحسين مهارات الهيئة المعاونة للدراسة بالخارج",
+        "time": "2025/2030",
+        "cost": 0,
+        "period": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "indicator": "دعم الدراسة بالخارج"
+      }
+    ]
+  }
+};
+
+const TOTAL = 148;
+
+/* metadata */
+const goalMeta = [
+  {idx:1, roman:"I",   en:"Smart Sustainable Productive Faculty"},
+  {idx:2, roman:"II",  en:"Educational Effectiveness & Hybrid Learning"},
+  {idx:3, roman:"III", en:"Scientific Research & Innovation"},
+  {idx:4, roman:"IV",  en:"Community Engagement & Environment"},
+  {idx:5, roman:"V",   en:"Institutional Capacity & Competitiveness"},
+  {idx:6, roman:"VI",  en:"Student Affairs & Alumni Relations"},
+  {idx:7, roman:"VII", en:"International Student Enrollment"},
+  {idx:8, roman:"VIII",en:"Local & International Partnerships"},
+];
+
+const objectiveTitles = {
+  1: ["عمل قواعد بيانات مؤسسية وتعزيز الموقع الإلكتروني","عمل قواعد بيانات لكل قسم علمي","دورية تقويم القدرة المؤسسية والفاعلية التعليمية","رفع كفاءة الجهاز الإداري والتعلم الإلكتروني","بناء قدرات رقمية وطنية متكاملة"],
+  2: ["تطوير المقررات الدراسية","تعزيز المعايير الأكاديمية القياسية","تطوير أساليب واستراتيجيات التعليم الإلكتروني","رفع كفاءة التعلم لمواكبة المستويات الإقليمية","تعزيز الالتزام بالمصداقية مع الطلاب","تعزيز مشاركة الطلاب في تطوير العملية التعليمية","رفع كفاءة معامل الكلية وتطوير البرامج الإلكترونية"],
+  3: ["دعم وتطوير منظومة البحث العلمي","تعزيز المجالات البحثية المتميزة","تهيئة بيئة بحثية محفزة للتوطين","ربط التطبيقات المعرفية بالقضايا ذات الأولوية","رفع معدلات النشر في المجلات الدولية","تعزيز الوعي بأخلاقيات البحث العلمي"],
+  4: ["توسيع دور الكلية كمركز إشعاع ثقافي","توسيع نطاق التعاون مع القطاعات والجهات","خدمة المجتمع المحلي وتطوير معامل الحاسب","المشاركة في الدور الاستراتيجي لمصر إقليمياً","تدعيم علاقات الشراكة مع مؤسسات المجتمع المدني","صياغة معايير ومؤشرات قياس رضاء المستفيدين"],
+  5: ["المتابعة الدورية للخطة الاستراتيجية","تفعيل متطلبات الحوكمة والإدارة","تطوير الهيكل التنظيمي للكلية","تطوير مبنى الكلية لاستيعاب الساعات المعتمدة","تفعيل دور المشاركة المجتمعية للأطراف المعنية","تنمية قدرات أعضاء هيئة التدريس","زيادة نسبة الهيئة المعاونة الدارسين بالخارج","رفع كفاءة الجهاز الإداري للكلية","التزام الكلية بالمصداقية والنزاهة","تنمية الموارد المالية الذاتية"],
+  6: ["دعم الأنشطة الطلابية لمتطلبات سوق العمل","تنمية مهارات الطلاب على الإبداع والابتكار","بناء شخصية الطالب وتنمية الوعي القومي","تعزيز التواصل مع الخريجين","تكوين كيانات خاصة بالخريجين"],
+  7: ["إعداد مطبوعات ووسائل تعريف بالكلية","تنظيم دورات تدريبية للطلاب والمخططين العرب","التواصل الفعال مع خريجي الكلية بالدول العربية","زيادة أعداد الوافدين وتوقيع بروتوكولات"],
+  8: ["زيادة نسبة الهيئة المعاونة الدارسين بالخارج"],
+};
+
+const palette = ["#d4b06a","#f1d999","#7eb6ff","#4a8fd6","#5fc592","#b59ce2","#e6b25e","#e07b7b"];
+
+const periodLabels = ["2025-2026","2026-2027","2027-2028","2028-2029","2029-2030"];
+
+/* ===================== AGGREGATIONS ===================== */
+function goalActivities(gid){return PLAN_DATA[gid].activities.length}
+function goalCost(gid){return PLAN_DATA[gid].activities.reduce((s,a)=>s+a.cost,0)}
+function goalObjectives(gid){
+  const m = {};
+  PLAN_DATA[gid].activities.forEach(a=>{ m[a.obj]=(m[a.obj]||0)+1 });
+  return m;
+}
+function goalPeriods(gid){
+  const p=[0,0,0,0,0];
+  PLAN_DATA[gid].activities.forEach(a=>{
+    a.period.forEach((v,i)=>p[i]+=v);
+  });
+  return p;
+}
+
+/* ===================== BAR CHART ===================== */
+const max = Math.max(...Object.keys(PLAN_DATA).map(g=>goalActivities(g)));
+const barChart = document.getElementById('barChart');
+goalMeta.forEach((g, i)=>{
+  const acts = goalActivities(g.idx);
+  const pct = (acts / TOTAL * 100);
+  const widthPct = (acts / max * 100);
+  const row = document.createElement('div');
+  row.className = 'bar-row';
+  row.dataset.goal = g.idx;
+  row.innerHTML = `
+    <div class="bar-label">
+      ${g.roman}. ${PLAN_DATA[g.idx].title}
+      <small>${g.en}</small>
+    </div>
+    <div class="bar-track">
+      <div class="bar-fill" data-w="${widthPct}" style="background:linear-gradient(270deg, ${palette[i]}, ${palette[i]}cc 60%, ${palette[i]}55)"></div>
+    </div>
+    <div class="bar-value">
+      ${acts}
+      <span class="pct">${pct.toFixed(1)}%</span>
+    </div>
+  `;
+  row.addEventListener('click',()=>openGoalModal(g.idx));
+  barChart.appendChild(row);
+});
+
+setTimeout(()=>{
+  document.querySelectorAll('.bar-fill').forEach(el=>{
+    el.style.width = el.dataset.w + '%';
+  });
+}, 200);
+
+/* ===================== DONUT ===================== */
+const svg = document.getElementById('donutSvg');
+const cx=100, cy=100, r=78, circumference = 2*Math.PI*r;
+let offset = 0;
+goalMeta.forEach((g, i)=>{
+  const acts = goalActivities(g.idx);
+  const frac = acts / TOTAL;
+  const len = frac * circumference;
+  const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  c.setAttribute('cx', cx);
+  c.setAttribute('cy', cy);
+  c.setAttribute('r', r);
+  c.setAttribute('fill','none');
+  c.setAttribute('stroke', palette[i]);
+  c.setAttribute('stroke-width', 20);
+  c.setAttribute('stroke-dasharray', `0 ${circumference}`);
+  c.setAttribute('stroke-dashoffset', -offset);
+  c.setAttribute('class','seg');
+  c.style.transition = `stroke-dasharray 1.4s cubic-bezier(.2,.8,.2,1) ${i*0.08}s, stroke-width .3s`;
+  c.addEventListener('click',()=>openGoalModal(g.idx));
+  svg.appendChild(c);
+  setTimeout(()=>{
+    c.setAttribute('stroke-dasharray', `${len} ${circumference - len}`);
+  }, 250);
+  offset += len;
+});
+
+/* ===================== LEGEND ===================== */
+const legend = document.getElementById('legend');
+goalMeta.forEach((g, i)=>{
+  const acts = goalActivities(g.idx);
+  const pct = (acts/TOTAL*100).toFixed(1);
+  const item = document.createElement('div');
+  item.className = 'legend-item';
+  item.dataset.goal = g.idx;
+  item.innerHTML = `
+    <span class="legend-swatch" style="background:${palette[i]}"></span>
+    <span class="legend-name">${g.roman}. ${g.en}</span>
+    <span class="legend-value">${acts} · ${pct}%</span>
+  `;
+  item.addEventListener('click',()=>openGoalModal(g.idx));
+  legend.appendChild(item);
+});
+
+/* ===================== TIMELINE ===================== */
+const timeline = document.getElementById('timelineGrid');
+const periodTotals = [0,0,0,0,0];
+Object.keys(PLAN_DATA).forEach(gid=>{
+  goalPeriods(gid).forEach((v,i)=>periodTotals[i]+=v);
+});
+const maxPeriod = Math.max(...periodTotals);
+
+periodTotals.forEach((count, i)=>{
+  const widthPct = (count / maxPeriod * 100);
+  const card = document.createElement('div');
+  card.className = 'period-card';
+  card.dataset.period = i;
+  card.innerHTML = `
+    <div class="period-num">PERIOD ${String(i+1).padStart(2,'0')}</div>
+    <div class="period-years">${periodLabels[i]}</div>
+    <div class="period-count">
+      ${count}
+      <small>نشاط نشط</small>
+    </div>
+    <div class="period-bar"><div class="period-bar-fill" data-w="${widthPct}"></div></div>
+  `;
+  card.addEventListener('click',()=>openPeriodModal(i));
+  timeline.appendChild(card);
+});
+
+setTimeout(()=>{
+  document.querySelectorAll('.period-bar-fill').forEach(el=>{
+    el.style.width = el.dataset.w + '%';
+  });
+}, 400);
+
+/* ===================== COST LIST ===================== */
+const costList = document.getElementById('costList');
+const goalCosts = goalMeta.map(g=>({...g, cost:goalCost(g.idx)}));
+const maxCost = Math.max(...goalCosts.map(g=>g.cost));
+
+goalCosts.forEach((g,i)=>{
+  const widthPct = g.cost > 0 ? (g.cost/maxCost*100) : 0;
+  const row = document.createElement('div');
+  row.className = 'cost-row';
+  row.dataset.goal = g.idx;
+  row.innerHTML = `
+    <div class="cost-label">الغاية ${g.roman}</div>
+    <div class="cost-track"><div class="cost-fill" data-w="${widthPct}"></div></div>
+    <div class="cost-value">${(g.cost/1000).toFixed(0)} ألف<small>${g.cost.toLocaleString('ar-EG')} ج.م</small></div>
+  `;
+  row.addEventListener('click',()=>openGoalModal(g.idx));
+  costList.appendChild(row);
+});
+
+setTimeout(()=>{
+  document.querySelectorAll('.cost-fill').forEach(el=>{
+    el.style.width = el.dataset.w + '%';
+  });
+}, 400);
+
+/* ===================== TOP COSTLY ACTIVITIES ===================== */
+const topCostList = document.getElementById('topCostList');
+const allActivities = [];
+Object.keys(PLAN_DATA).forEach(gid=>{
+  PLAN_DATA[gid].activities.forEach(a=>{
+    if(a.cost>0) allActivities.push({...a, goalId:gid});
+  });
+});
+allActivities.sort((a,b)=>b.cost-a.cost);
+const top8 = allActivities.slice(0,8);
+const maxTop = Math.max(...top8.map(a=>a.cost));
+
+top8.forEach(a=>{
+  const widthPct = (a.cost/maxTop*100);
+  const row = document.createElement('div');
+  row.className = 'cost-row';
+  row.style.gridTemplateColumns = '1fr 100px 100px';
+  row.innerHTML = `
+    <div class="cost-label" style="font-size:11px;font-weight:600;line-height:1.3">${a.act.length>40?a.act.slice(0,40)+'…':a.act}</div>
+    <div class="cost-track"><div class="cost-fill" data-w="${widthPct}"></div></div>
+    <div class="cost-value">${(a.cost/1000).toFixed(0)}<small>ألف ج.م</small></div>
+  `;
+  topCostList.appendChild(row);
+});
+setTimeout(()=>{
+  document.querySelectorAll('#topCostList .cost-fill').forEach(el=>{
+    el.style.width = el.dataset.w + '%';
+  });
+}, 600);
+
+/* ===================== GOAL CARDS ===================== */
+const grid = document.getElementById('goalsGrid');
+goalMeta.forEach((g, i)=>{
+  const acts = goalActivities(g.idx);
+  const pct = (acts/TOTAL*100).toFixed(1);
+  const objs = goalObjectives(g.idx);
+  const cost = goalCost(g.idx);
+  const card = document.createElement('div');
+  card.className = 'goal-card';
+  card.dataset.goal = g.idx;
+
+  let objHTML = '';
+  Object.keys(objs).forEach((oi, idx)=>{
+    const objNum = parseInt(oi);
+    const objName = objectiveTitles[g.idx][objNum-1] || '';
+    objHTML += `
+      <div class="obj-item">
+        <span class="obj-marker">${String(idx+1).padStart(2,'0')}</span>
+        <span class="obj-text">${objName}</span>
+        <span class="obj-count">${objs[oi]}</span>
+      </div>
+    `;
+  });
+
+  card.innerHTML = `
+    <div class="corner-num">GOAL · ${String(g.idx).padStart(2,'0')}</div>
+    <div class="goal-num-row">
+      <div class="goal-roman">
+        ${g.roman}
+        <small>STRATEGIC GOAL</small>
+      </div>
+      <div class="goal-stats">
+        <div class="goal-stat">
+          <div class="v">${Object.keys(objs).length}</div>
+          <div class="l">Objectives</div>
+        </div>
+        <div class="goal-stat">
+          <div class="v">${acts}</div>
+          <div class="l">Activities</div>
+        </div>
+        <div class="goal-stat">
+          <div class="v" style="color:var(--gold-2)">${pct}%</div>
+          <div class="l">of Total</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="goal-title">${PLAN_DATA[g.idx].title}</div>
+
+    <div class="progress-row">
+      <div class="progress-track">
+        <div class="progress-fill" data-w="${(acts/max*100)}" style="background:linear-gradient(270deg, ${palette[i]}, ${palette[i]}99)"></div>
+      </div>
+      <div class="progress-pct">${acts}/${TOTAL}</div>
+    </div>
+
+    <div class="objectives-list">
+      ${objHTML}
+    </div>
+  `;
+  card.addEventListener('click',()=>openGoalModal(g.idx));
+  grid.appendChild(card);
+});
+
+setTimeout(()=>{
+  document.querySelectorAll('.progress-fill').forEach(el=>{
+    el.style.width = el.dataset.w + '%';
+  });
+}, 400);
+
+/* ===================== MODAL ===================== */
+function openGoalModal(gid){
+  const g = goalMeta[gid-1];
+  const data = PLAN_DATA[gid];
+  const acts = data.activities;
+  const cost = goalCost(gid);
+  const objs = goalObjectives(gid);
+  const pct = (acts.length/TOTAL*100).toFixed(1);
+
+  let rows = acts.map((a,i)=>{
+    const objName = objectiveTitles[gid][a.obj-1] || '';
+    const periods = a.period.map((v,pi)=>v?`${pi+1}`:'').filter(x=>x).join(', ');
+    return `<tr>
+      <td class="num">${String(i+1).padStart(2,'0')}</td>
+      <td class="activity-cell">${a.act}</td>
+      <td class="time-cell">${a.time}</td>
+      <td class="cost-cell">${a.cost>0?a.cost.toLocaleString('ar-EG')+' ج.م':'—'}</td>
+      <td class="indicator-cell">${a.indicator}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-eyebrow">STRATEGIC GOAL ${g.roman} · ${String(gid).padStart(2,'0')}</div>
+    <div class="modal-title">${data.title}</div>
+    <div class="modal-sub">${g.en}</div>
+
+    <div class="modal-stats">
+      <div class="modal-stat"><div class="v">${Object.keys(objs).length}</div><div class="l">الأهداف التنفيذية</div></div>
+      <div class="modal-stat"><div class="v">${acts.length}</div><div class="l">الأنشطة</div></div>
+      <div class="modal-stat"><div class="v">${pct}%</div><div class="l">من الإجمالي</div></div>
+      <div class="modal-stat"><div class="v">${(cost/1000).toFixed(0)}<span style="font-family:Cairo;font-size:13px"> ألف</span></div><div class="l">التكلفة (ج.م)</div></div>
+    </div>
+
+    <table class="activities-table">
+      <thead>
+        <tr>
+          <th style="width:40px">#</th>
+          <th>النشاط التنفيذي</th>
+          <th style="width:120px">الإطار الزمني</th>
+          <th style="width:130px">التكلفة</th>
+          <th style="width:240px">مؤشر النجاح</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+  document.getElementById('modal').classList.add('active');
+}
+
+function openPeriodModal(periodIdx){
+  let rows = '';
+  let count = 0;
+  let totalCost = 0;
+  Object.keys(PLAN_DATA).forEach(gid=>{
+    PLAN_DATA[gid].activities.forEach((a,ai)=>{
+      if(a.period[periodIdx]){
+        count++;
+        totalCost += a.cost;
+        rows += `<tr>
+          <td class="num">${String(count).padStart(2,'0')}</td>
+          <td class="activity-cell">${a.act}</td>
+          <td class="time-cell">G ${gid}</td>
+          <td class="time-cell">${a.time}</td>
+          <td class="cost-cell">${a.cost>0?a.cost.toLocaleString('ar-EG')+' ج.م':'—'}</td>
+        </tr>`;
+      }
+    });
+  });
+
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-eyebrow">PLAN PERIOD ${String(periodIdx+1).padStart(2,'0')}</div>
+    <div class="modal-title">الفترة ${periodIdx+1} · ${periodLabels[periodIdx]}</div>
+    <div class="modal-sub">Activities active during this period of the executive plan</div>
+
+    <div class="modal-stats">
+      <div class="modal-stat"><div class="v">${count}</div><div class="l">الأنشطة النشطة</div></div>
+      <div class="modal-stat"><div class="v">${(count/TOTAL*100).toFixed(0)}%</div><div class="l">من الإجمالي</div></div>
+      <div class="modal-stat"><div class="v">${(totalCost/1000).toFixed(0)}<span style="font-family:Cairo;font-size:13px"> ألف</span></div><div class="l">التكلفة (ج.م)</div></div>
+      <div class="modal-stat"><div class="v">${periodLabels[periodIdx]}</div><div class="l">السنوات</div></div>
+    </div>
+
+    <table class="activities-table">
+      <thead>
+        <tr>
+          <th style="width:40px">#</th>
+          <th>النشاط التنفيذي</th>
+          <th style="width:60px">الغاية</th>
+          <th style="width:130px">الإطار الزمني</th>
+          <th style="width:130px">التكلفة</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+  document.getElementById('modal').classList.add('active');
+}
+
+function closeModal(){
+  document.getElementById('modal').classList.remove('active');
+}
+
+document.getElementById('modal').addEventListener('click',(e)=>{
+  if(e.target.id==='modal') closeModal();
+});
+
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='Escape') closeModal();
+});
+
+/* KPI click handlers — open period or generic */
+document.getElementById('kpi-time').addEventListener('click',()=>{
+  document.querySelector('.timeline-panel').scrollIntoView({behavior:'smooth',block:'center'});
+});
+document.getElementById('kpi-activities').addEventListener('click',()=>{
+  document.querySelector('.goals-grid').scrollIntoView({behavior:'smooth',block:'start'});
+});
+document.getElementById('kpi-goals').addEventListener('click',()=>{
+  document.querySelector('.goals-grid').scrollIntoView({behavior:'smooth',block:'start'});
+});
+document.getElementById('kpi-objectives').addEventListener('click',()=>{
+  document.querySelector('.goals-grid').scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+</script>
+
+</body>
+</html>
