@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>INNOVO · MEP Sustainability Dashboard 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg-0:#0a0d0c;
+  --bg-1:#0f1413;
+  --bg-2:#141a18;
+  --ink:#ece7d9;
+  --ink-dim:#9aa39a;
+  --ink-faint:#5b6560;
+  --gold:#c8a96a;
+  --gold-bright:#e2c485;
+  --gold-deep:#8a6f3f;
+  --emerald:#3d6b5a;
+  --emerald-bright:#5d9a82;
+  --copper:#b97a4b;
+  --line:rgba(200,169,106,0.18);
+  --line-strong:rgba(200,169,106,0.35);
+  --glass:rgba(20,26,24,0.6);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg-0);color:var(--ink);font-family:'Inter Tight',sans-serif;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(ellipse at top left, rgba(200,169,106,0.08), transparent 55%),
+    radial-gradient(ellipse at bottom right, rgba(61,107,90,0.10), transparent 60%),
+    var(--bg-0);
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:1;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.78  0 0 0 0 0.66  0 0 0 0 0.42  0 0 0 0.035 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity:.5;mix-blend-mode:overlay;
+}
+
+/* Top frame */
+.frame{position:relative;z-index:2;max-width:1480px;margin:0 auto;padding:36px 48px 80px}
+
+/* HERO */
+.hero{
+  position:relative;
+  border:1px solid var(--line);
+  background:linear-gradient(135deg,rgba(20,26,24,0.85) 0%,rgba(15,20,19,0.55) 100%);
+  padding:48px 56px 56px;
+  overflow:hidden;
+  border-radius:2px;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 85% 20%, rgba(200,169,106,0.18), transparent 45%),
+    radial-gradient(circle at 15% 90%, rgba(93,154,130,0.12), transparent 50%);
+  pointer-events:none;
+}
+.hero-corner{position:absolute;width:34px;height:34px;border-color:var(--gold);}
+.hc-tl{top:14px;left:14px;border-top:1px solid;border-left:1px solid}
+.hc-tr{top:14px;right:14px;border-top:1px solid;border-right:1px solid}
+.hc-bl{bottom:14px;left:14px;border-bottom:1px solid;border-left:1px solid}
+.hc-br{bottom:14px;right:14px;border-bottom:1px solid;border-right:1px solid}
+
+.brandline{display:flex;align-items:center;gap:14px;margin-bottom:28px;position:relative;z-index:2}
+.brandline .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 14px var(--gold)}
+.brandline span{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase}
+.brandline .line{flex:1;height:1px;background:linear-gradient(90deg,var(--line-strong),transparent)}
+
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-size:clamp(48px,6.5vw,92px);
+  line-height:.95;
+  letter-spacing:-0.02em;
+  position:relative;z-index:2;
+}
+.hero h1 em{font-style:italic;color:var(--gold);font-weight:400}
+.hero .sub{
+  margin-top:22px;font-size:15px;color:var(--ink-dim);max-width:680px;line-height:1.7;
+  position:relative;z-index:2;
+}
+.meta-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:42px;
+  border-top:1px solid var(--line);padding-top:24px;position:relative;z-index:2;
+}
+.meta-strip > div{padding:6px 18px;border-left:1px solid var(--line)}
+.meta-strip > div:first-child{padding-left:0;border-left:none}
+.meta-strip .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.25em;color:var(--ink-faint);text-transform:uppercase;margin-bottom:8px}
+.meta-strip .v{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink);font-weight:500}
+.meta-strip .v small{font-size:13px;color:var(--ink-dim);font-family:'Inter Tight';font-weight:400;display:block;margin-top:2px}
+
+/* SECTION */
+section{margin-top:80px;position:relative}
+.section-head{display:flex;align-items:baseline;gap:24px;margin-bottom:36px;flex-wrap:wrap}
+.section-num{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.35em;color:var(--gold);}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:400;line-height:1;letter-spacing:-0.01em}
+.section-title em{font-style:italic;color:var(--gold-bright)}
+.section-rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line-strong),transparent);min-width:60px}
+
+/* KPI CARDS */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.kpi{
+  position:relative;padding:28px 24px;background:var(--glass);
+  border:1px solid var(--line);
+  backdrop-filter:blur(8px);
+  transition:all .5s cubic-bezier(.2,.7,.2,1);
+  overflow:hidden;cursor:default;
+}
+.kpi::after{
+  content:'';position:absolute;top:0;left:0;width:0;height:1px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  transition:width .8s ease;
+}
+.kpi:hover::after{width:100%}
+.kpi:hover{transform:translateY(-4px);border-color:var(--line-strong);background:rgba(20,26,24,0.85)}
+.kpi .label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.25em;color:var(--ink-faint);text-transform:uppercase;margin-bottom:14px}
+.kpi .value{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:300;line-height:1;color:var(--ink)}
+.kpi .value em{font-style:italic;color:var(--gold-bright);font-weight:400}
+.kpi .desc{margin-top:10px;font-size:12px;color:var(--ink-dim);line-height:1.5}
+.kpi .icon-mini{position:absolute;top:24px;right:24px;width:30px;height:30px;opacity:.45}
+
+/* MEETING CARD */
+.two-col{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;margin-top:8px}
+.card{
+  padding:36px 38px;border:1px solid var(--line);
+  background:linear-gradient(160deg,rgba(20,26,24,0.7) 0%,rgba(15,20,19,0.5) 100%);
+  position:relative;
+}
+.card-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.card-eyebrow .pip{width:5px;height:5px;background:var(--gold);border-radius:50%}
+.card-eyebrow span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+.card h3{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:400;margin-bottom:22px;line-height:1.15}
+.detail-list{list-style:none}
+.detail-list li{display:flex;padding:14px 0;border-bottom:1px solid rgba(200,169,106,0.08);gap:18px;align-items:baseline}
+.detail-list li:last-child{border-bottom:none}
+.detail-list .k{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;
+  color:var(--ink-faint);text-transform:uppercase;min-width:130px;flex-shrink:0;
+}
+.detail-list .v{font-size:15px;color:var(--ink);font-weight:400;line-height:1.55}
+.attendees{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.attendees span{
+  font-size:12px;padding:6px 12px;border:1px solid var(--line-strong);
+  color:var(--gold-bright);font-family:'Inter Tight';letter-spacing:.05em;
+  background:rgba(200,169,106,0.04);
+}
+
+/* DISCUSSION */
+.discussion{padding:36px 40px}
+.discussion h3{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;margin-bottom:8px}
+.discussion .lede{color:var(--ink-dim);font-size:13px;margin-bottom:28px;font-style:italic}
+.disc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.disc-item{
+  display:flex;gap:16px;padding:18px 20px;
+  border-left:2px solid var(--gold-deep);
+  background:rgba(200,169,106,0.025);
+  transition:all .35s ease;
+}
+.disc-item:hover{border-left-color:var(--gold-bright);background:rgba(200,169,106,0.06);transform:translateX(4px)}
+.disc-num{
+  font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;
+  color:var(--gold);line-height:1;font-weight:500;min-width:32px;
+}
+.disc-text{font-size:13.5px;color:var(--ink);line-height:1.6;font-weight:300}
+
+/* CHARTS */
+.charts-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:22px}
+.chart-card{padding:28px 32px;border:1px solid var(--line);background:var(--glass);min-height:380px;position:relative}
+.chart-card h4{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;margin-bottom:4px}
+.chart-card .csub{font-size:11px;color:var(--ink-faint);letter-spacing:.15em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-bottom:18px}
+.chart-host{position:relative;height:300px}
+
+/* TRACKER TABLE */
+.tracker-wrap{border:1px solid var(--line);background:rgba(15,20,19,0.5);overflow:hidden}
+.tracker-tabs{display:flex;border-bottom:1px solid var(--line);background:rgba(10,13,12,0.6)}
+.tab{
+  flex:1;padding:18px 20px;cursor:pointer;font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);
+  text-align:left;border-right:1px solid var(--line);transition:all .3s;
+  background:transparent;border-top:none;border-bottom:none;border-left:none;
+  position:relative;
+}
+.tab:last-child{border-right:none}
+.tab:hover{color:var(--ink-dim)}
+.tab.active{color:var(--gold);background:rgba(200,169,106,0.06)}
+.tab.active::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--gold)}
+.tab .tab-num{display:block;font-family:'Cormorant Garamond',serif;font-size:32px;font-style:italic;color:var(--gold-deep);margin-bottom:6px;letter-spacing:0;text-transform:none}
+.tab.active .tab-num{color:var(--gold-bright)}
+.tab .tab-lbl{display:block;line-height:1.4;font-weight:500}
+
+.tracker-body{padding:42px 48px;min-height:480px}
+.tracker-panel{display:none;animation:fadeIn .5s ease}
+.tracker-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.tp-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:30px;gap:30px;flex-wrap:wrap}
+.tp-title{flex:1;min-width:300px}
+.tp-title .dept{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+.tp-title h3{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:400;line-height:1.15;letter-spacing:-0.01em}
+.tp-status{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.status-pill{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  padding:7px 14px;border:1px solid var(--gold);color:var(--gold);
+}
+.status-pill.planned{border-color:var(--copper);color:var(--copper)}
+.status-pill.ongoing{border-color:var(--emerald-bright);color:var(--emerald-bright)}
+
+.tp-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:8px}
+.tp-block h5{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.25em;color:var(--ink-faint);text-transform:uppercase;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.tp-block .body{font-size:14px;line-height:1.75;color:var(--ink);font-weight:300}
+.tp-block .body ul{list-style:none;padding:0}
+.tp-block .body li{padding:6px 0 6px 22px;position:relative}
+.tp-block .body li::before{content:'—';position:absolute;left:0;color:var(--gold)}
+.tp-why{
+  grid-column:1/-1;margin-top:10px;padding:22px 26px;
+  background:rgba(200,169,106,0.04);border-left:2px solid var(--gold);
+}
+.tp-why h5{color:var(--gold);border:none;padding-bottom:8px;margin-bottom:8px}
+.tp-why .body{font-style:italic;font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--ink);line-height:1.55}
+
+/* SCOPE / SOLUTIONS */
+.scope-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.scope-card{
+  padding:38px 36px;border:1px solid var(--line);
+  background:linear-gradient(155deg,rgba(20,26,24,0.85),rgba(15,20,19,0.55));
+  position:relative;overflow:hidden;
+}
+.scope-card::before{
+  content:attr(data-scope);position:absolute;top:-30px;right:-10px;
+  font-family:'Cormorant Garamond',serif;font-size:180px;font-style:italic;
+  color:rgba(200,169,106,0.05);font-weight:300;line-height:1;pointer-events:none;
+}
+.scope-head{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.scope-tag{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;
+  padding:5px 12px;border:1px solid var(--gold);color:var(--gold);
+}
+.scope-card h3{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;margin-bottom:8px}
+.scope-card .sdesc{font-size:13px;color:var(--ink-dim);line-height:1.6;margin-bottom:24px;max-width:520px}
+.solutions{display:flex;flex-direction:column;gap:0;position:relative;z-index:2}
+.sol-row{
+  display:grid;grid-template-columns:34px 1fr;gap:16px;padding:16px 0;
+  border-top:1px solid rgba(200,169,106,0.1);align-items:start;
+}
+.sol-row:first-of-type{border-top:none}
+.sol-icon{
+  width:30px;height:30px;border:1px solid var(--gold-deep);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:var(--gold);
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;font-weight:500;
+}
+.sol-content .stitle{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:4px}
+.sol-content .sdesc-row{font-size:12.5px;color:var(--ink-dim);line-height:1.55}
+
+/* FUTURE PLAN ROADMAP */
+.timeline{position:relative;padding:30px 0 10px}
+.timeline::before{
+  content:'';position:absolute;top:60px;left:5%;right:5%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-deep) 15%,var(--gold) 50%,var(--gold-deep) 85%,transparent);
+}
+.timeline-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.tl-step{padding:0 18px;text-align:left;position:relative}
+.tl-dot{
+  width:14px;height:14px;border-radius:50%;background:var(--bg-0);
+  border:2px solid var(--gold);margin:0 auto 22px;position:relative;z-index:2;
+  box-shadow:0 0 0 6px var(--bg-0), 0 0 20px rgba(200,169,106,0.4);
+}
+.tl-q{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.3em;color:var(--gold);text-align:center;margin-bottom:6px}
+.tl-period{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--ink-dim);text-align:center;margin-bottom:18px}
+.tl-step h4{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;margin-bottom:12px;line-height:1.2;text-align:center}
+.tl-step ul{list-style:none;font-size:12.5px;color:var(--ink-dim);line-height:1.7}
+.tl-step li{padding:5px 0 5px 14px;position:relative}
+.tl-step li::before{content:'·';position:absolute;left:2px;color:var(--gold);font-weight:700}
+
+/* TARGET BANNER */
+.target-banner{
+  margin-top:40px;padding:38px 44px;
+  border:1px solid var(--line-strong);
+  background:
+    radial-gradient(circle at 80% 50%, rgba(200,169,106,0.10), transparent 60%),
+    linear-gradient(135deg,rgba(15,20,19,0.9),rgba(20,26,24,0.7));
+  display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:30px;align-items:center;
+}
+.target-banner .tb-title{font-family:'Cormorant Garamond',serif;font-size:26px;line-height:1.2;font-weight:400}
+.target-banner .tb-title em{font-style:italic;color:var(--gold-bright)}
+.tb-stat{text-align:left;border-left:1px solid var(--line);padding-left:24px}
+.tb-stat .n{font-family:'Cormorant Garamond',serif;font-size:48px;color:var(--gold-bright);font-weight:300;line-height:1;letter-spacing:-0.02em}
+.tb-stat .n em{font-style:italic}
+.tb-stat .l{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--ink-faint);text-transform:uppercase;margin-top:6px}
+
+/* ============ ESG SYSTEMS ============ */
+.esg-intro{color:var(--ink-dim);max-width:780px;margin-bottom:36px;font-size:14px;line-height:1.7}
+
+.esg-pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:32px}
+.esg-pillar{
+  position:relative;padding:36px 32px 32px;
+  border:1px solid var(--line);
+  background:linear-gradient(160deg,rgba(20,26,24,0.85),rgba(15,20,19,0.55));
+  overflow:hidden;transition:all .5s cubic-bezier(.2,.7,.2,1);
+}
+.esg-pillar::before{
+  content:attr(data-letter);
+  position:absolute;top:-40px;right:-12px;
+  font-family:'Cormorant Garamond',serif;font-size:220px;font-weight:300;font-style:italic;
+  color:rgba(200,169,106,0.05);line-height:1;pointer-events:none;
+}
+.esg-pillar:hover{transform:translateY(-6px);border-color:var(--line-strong)}
+.esg-pillar:hover::before{color:rgba(200,169,106,0.10)}
+.esg-pillar .ep-tag{
+  display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;
+  letter-spacing:.3em;padding:5px 12px;border:1px solid var(--gold);color:var(--gold);
+  text-transform:uppercase;margin-bottom:18px;position:relative;z-index:2;
+}
+.esg-pillar.env .ep-tag{border-color:var(--emerald-bright);color:var(--emerald-bright)}
+.esg-pillar.soc .ep-tag{border-color:var(--copper);color:var(--copper)}
+.esg-pillar.gov .ep-tag{border-color:var(--gold);color:var(--gold)}
+.esg-pillar h3{
+  font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;
+  margin-bottom:8px;position:relative;z-index:2;line-height:1.1;
+}
+.esg-pillar h3 em{font-style:italic;color:var(--gold-bright)}
+.esg-pillar .ep-sub{
+  font-size:13px;color:var(--ink-dim);line-height:1.6;margin-bottom:22px;
+  position:relative;z-index:2;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:15px;
+}
+.esg-pillar ul{list-style:none;position:relative;z-index:2}
+.esg-pillar ul li{
+  padding:11px 0 11px 22px;position:relative;font-size:13px;
+  color:var(--ink);line-height:1.55;font-weight:300;
+  border-top:1px solid rgba(200,169,106,0.08);
+}
+.esg-pillar ul li:first-child{border-top:none}
+.esg-pillar ul li::before{
+  content:'';position:absolute;left:0;top:18px;width:12px;height:1px;background:var(--gold);
+}
+.esg-pillar ul li strong{color:var(--gold-bright);font-weight:500}
+
+/* ESG SYSTEMS / FRAMEWORKS */
+.esg-systems-head{
+  display:flex;align-items:baseline;gap:14px;margin:42px 0 24px;padding-bottom:14px;
+  border-bottom:1px solid var(--line);
+}
+.esg-systems-head .num{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.3em;color:var(--gold)}
+.esg-systems-head h3{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400}
+.esg-systems-head h3 em{font-style:italic;color:var(--gold-bright)}
+
+.esg-systems-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:36px}
+.esg-system{
+  padding:24px 22px;border:1px solid var(--line);
+  background:var(--glass);backdrop-filter:blur(8px);
+  transition:all .35s ease;position:relative;
+}
+.esg-system:hover{transform:translateY(-4px);border-color:var(--gold);background:rgba(20,26,24,0.9)}
+.esg-system .es-code{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.25em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:10px;
+}
+.esg-system h4{
+  font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;
+  margin-bottom:8px;line-height:1.2;
+}
+.esg-system p{font-size:12px;color:var(--ink-dim);line-height:1.6}
+
+/* KPI METRICS GRID */
+.esg-metrics{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:0;
+  border:1px solid var(--line);background:rgba(15,20,19,0.5);
+  margin-bottom:32px;
+}
+.esg-metric{
+  padding:24px 22px;border-right:1px solid var(--line);
+  text-align:left;transition:background .3s;
+}
+.esg-metric:last-child{border-right:none}
+.esg-metric:hover{background:rgba(200,169,106,0.04)}
+.esg-metric .em-cat{
+  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.25em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:10px;
+}
+.esg-metric .em-val{
+  font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;
+  color:var(--ink);line-height:1;letter-spacing:-0.01em;
+}
+.esg-metric .em-val em{font-style:italic;color:var(--gold-bright)}
+.esg-metric .em-lbl{
+  font-size:11px;color:var(--ink-dim);margin-top:8px;line-height:1.4;letter-spacing:.02em;
+}
+
+/* ESG CHARTS */
+.esg-charts{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:36px}
+
+/* GOVERNANCE STRUCTURE */
+.esg-gov-flow{
+  padding:36px 40px;border:1px solid var(--line);
+  background:linear-gradient(155deg,rgba(20,26,24,0.7),rgba(15,20,19,0.5));
+}
+.esg-gov-flow h4{
+  font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;margin-bottom:6px;
+}
+.esg-gov-flow h4 em{font-style:italic;color:var(--gold-bright)}
+.esg-gov-flow .gf-sub{
+  font-size:12px;color:var(--ink-faint);letter-spacing:.15em;text-transform:uppercase;
+  font-family:'JetBrains Mono',monospace;margin-bottom:28px;
+}
+.gov-layers{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.gov-layer{
+  padding:22px 20px;border-right:1px solid var(--line);position:relative;
+}
+.gov-layer:last-child{border-right:none}
+.gov-layer::after{
+  content:'›';position:absolute;right:-10px;top:50%;transform:translateY(-50%);
+  font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);font-style:italic;
+  background:var(--bg-0);padding:0 4px;z-index:2;
+}
+.gov-layer:last-child::after{display:none}
+.gov-layer .gl-num{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:28px;
+  color:var(--gold);line-height:1;margin-bottom:10px;font-weight:500;
+}
+.gov-layer h5{
+  font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;
+  margin-bottom:8px;line-height:1.2;
+}
+.gov-layer p{font-size:12px;color:var(--ink-dim);line-height:1.55}
+
+/* FOOTER */
+footer{
+  margin-top:90px;padding-top:32px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;
+}
+footer .f-brand{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--gold)}
+footer .f-meta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.25em;color:var(--ink-faint);text-transform:uppercase}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .8s ease, transform .8s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media (max-width:1100px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .two-col,.charts-grid,.scope-grid,.tp-grid,.disc-grid,.esg-charts{grid-template-columns:1fr}
+  .timeline-grid{grid-template-columns:1fr 1fr}
+  .timeline::before{display:none}
+  .meta-strip{grid-template-columns:repeat(2,1fr)}
+  .meta-strip > div{border-left:none;border-top:1px solid var(--line);padding-top:14px;padding-left:0}
+  .target-banner{grid-template-columns:1fr 1fr}
+  .esg-pillars{grid-template-columns:1fr}
+  .esg-systems-grid{grid-template-columns:repeat(2,1fr)}
+  .esg-metrics{grid-template-columns:repeat(3,1fr)}
+  .esg-metric:nth-child(3n){border-right:none}
+  .esg-metric{border-bottom:1px solid var(--line)}
+  .gov-layers{grid-template-columns:1fr 1fr}
+  .gov-layer:nth-child(2n)::after{display:none}
+  .gov-layer{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:8px}
+}
+@media (max-width:640px){
+  .frame{padding:24px 18px 60px}
+  .hero{padding:36px 26px}
+  .kpi-grid{grid-template-columns:1fr}
+  .timeline-grid{grid-template-columns:1fr}
+  .tracker-tabs{flex-direction:column}
+  .tab{border-right:none;border-bottom:1px solid var(--line)}
+  .target-banner{grid-template-columns:1fr}
+  .meta-strip{grid-template-columns:1fr}
+  .section-title{font-size:32px}
+  .esg-systems-grid{grid-template-columns:1fr}
+  .esg-metrics{grid-template-columns:1fr}
+  .esg-metric{border-right:none;border-bottom:1px solid var(--line)}
+  .gov-layers{grid-template-columns:1fr}
+  .gov-layer::after{display:none}
+}
+</style>
+</head>
+<body>
+<div class="frame">
+
+<!-- ============ HERO ============ -->
+<header class="hero reveal">
+  <span class="hero-corner hc-tl"></span>
+  <span class="hero-corner hc-tr"></span>
+  <span class="hero-corner hc-bl"></span>
+  <span class="hero-corner hc-br"></span>
+
+  <div class="brandline">
+    <span class="dot"></span>
+    <span>INNOVO · Sustainability Committee · 2026</span>
+    <span class="line"></span>
+    <span>MoM · 06 · 05 · 2026</span>
+  </div>
+
+  <h1>The <em>MEP</em> Sustainability<br/>Dashboard</h1>
+  <p class="sub">A consolidated record of the Sustainability Champion · MEP Minutes of Meeting — capturing decisions on low-carbon materials, energy efficiency, waste reduction and labour compliance, with a forward roadmap to reduce Scope 1 and Scope 2 carbon emissions across MEP activities.</p>
+
+  <div class="meta-strip">
+    <div>
+      <div class="k">Meeting Date</div>
+      <div class="v">May 6, 2026<small>2:00 – 3:00 PM, GST</small></div>
+    </div>
+    <div>
+      <div class="k">Format</div>
+      <div class="v">Online<small>Virtual Convening</small></div>
+    </div>
+    <div>
+      <div class="k">Attendees</div>
+      <div class="v">3 Members<small>Sustainability + MEP Leads</small></div>
+    </div>
+    <div>
+      <div class="k">Action Items</div>
+      <div class="v">4 Tracked<small>Quarterly Cadence</small></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ KPI ============ -->
+<section class="reveal">
+  <div class="section-head">
+    <span class="section-num">§ 01</span>
+    <h2 class="section-title">At a <em>glance</em></h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="label">Discussion Topics</div>
+      <div class="value"><em>08</em></div>
+      <div class="desc">Strategic items covered including low-carbon ducts, plumbing, copper wiring, hybrid generators, and supplier audits.</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Action Items</div>
+      <div class="value"><em>04</em></div>
+      <div class="desc">Sustainability priorities for MEP — materials, energy, waste, and labour efficiency.</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Carbon Scopes</div>
+      <div class="value"><em>1 &amp; 2</em></div>
+      <div class="desc">Direct (Scope 1) and purchased energy (Scope 2) emissions targeted across MEP execution.</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Cadence</div>
+      <div class="value"><em>Q</em></div>
+      <div class="desc">Quarterly status review — planned, ongoing, completed — with current quarter results &amp; next-quarter action.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MEETING + DISCUSSION ============ -->
+<section class="reveal">
+  <div class="section-head">
+    <span class="section-num">§ 02</span>
+    <h2 class="section-title">Minutes of <em>Meeting</em></h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="two-col">
+    <!-- Meeting card -->
+    <div class="card">
+      <div class="card-eyebrow"><span class="pip"></span><span>Convening Record</span></div>
+      <h3>Sustainability Champion <em style="font-style:italic;color:var(--gold)">·</em> MEP</h3>
+      <ul class="detail-list">
+        <li><span class="k">Date &amp; Time</span><span class="v">May 6, 2026 — 2:00 to 3:00 PM, GST</span></li>
+        <li><span class="k">Location</span><span class="v">Online</span></li>
+        <li>
+          <span class="k">Attendees</span>
+          <span class="v" style="width:100%">
+            <div class="attendees">
+              <span>Deepika Verma</span><span>Meera Essa</span><span>Mustafa Abdelshafy</span>
+            </div>
+          </span>
+        </li>
+        <li>
+          <span class="k">Supervision By</span>
+          <span class="v" style="width:100%">
+            <div class="attendees">
+              <span style="border-color:var(--gold-bright);color:var(--gold-bright);background:rgba(200,169,106,0.08)">Mr. Abdelhamid Soliman</span>
+            </div>
+          </span>
+        </li>
+        <li><span class="k">Theme</span><span class="v">Low-carbon MEP materials, energy efficiency, and sustainable supplier operations.</span></li>
+      </ul>
+    </div>
+
+    <!-- Discussion -->
+    <div class="card discussion">
+      <div class="card-eyebrow"><span class="pip"></span><span>Key Discussion</span></div>
+      <h3>Eight points <em style="font-style:italic;color:var(--gold)">considered</em></h3>
+      <p class="lede">Strategic items raised, evaluated, and earmarked for next-quarter movement.</p>
+      <div class="disc-grid">
+        <div class="disc-item"><div class="disc-num">01</div><div class="disc-text">Use of <strong style="color:var(--gold-bright);font-weight:500">low-carbon duct materials</strong> to reduce embodied carbon emissions in construction activities.</div></div>
+        <div class="disc-item"><div class="disc-num">02</div><div class="disc-text">Adoption of <strong style="color:var(--gold-bright);font-weight:500">low-carbon plumbing pipes</strong> as part of sustainable material selection.</div></div>
+        <div class="disc-item"><div class="disc-num">03</div><div class="disc-text">Maximise use of <strong style="color:var(--gold-bright);font-weight:500">copper electrical wiring</strong> for efficiency, durability and recyclability.</div></div>
+        <div class="disc-item"><div class="disc-num">04</div><div class="disc-text">Implementation of <strong style="color:var(--gold-bright);font-weight:500">hybrid power systems for generators</strong> to improve fuel efficiency and cut emissions.</div></div>
+        <div class="disc-item"><div class="disc-num">05</div><div class="disc-text">Energy-efficient <strong style="color:var(--gold-bright);font-weight:500">transportation methods for suppliers</strong> in place of conventional buses where feasible.</div></div>
+        <div class="disc-item"><div class="disc-num">06</div><div class="disc-text">Use of <strong style="color:var(--gold-bright);font-weight:500">power-efficient cutting &amp; welding equipment</strong> — especially for copper pipe — to reduce energy and fumes.</div></div>
+        <div class="disc-item"><div class="disc-num">07</div><div class="disc-text">Planning &amp; optimisation of <strong style="color:var(--gold-bright);font-weight:500">fuel pickup truck operations</strong> for better fuel management.</div></div>
+        <div class="disc-item"><div class="disc-num">08</div><div class="disc-text">Weekly <strong style="color:var(--gold-bright);font-weight:500">supplier audits &amp; inspections</strong> to ensure compliance with sustainability, safety and operational standards.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHARTS ============ -->
+<section class="reveal">
+  <div class="section-head">
+    <span class="section-num">§ 03</span>
+    <h2 class="section-title">Carbon <em>cartography</em></h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="charts-grid">
+    <div class="chart-card">
+      <h4>Emission sources across MEP</h4>
+      <div class="csub">Indicative weighting · Scope 1 &amp; 2</div>
+      <div class="chart-host"><canvas id="chartEmissions"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h4>Scope 1 vs Scope 2 split</h4>
+      <div class="csub">Activity origin</div>
+      <div class="chart-host"><canvas id="chartScope"></canvas></div>
+    </div>
+  </div>
+  <div class="charts-grid" style="margin-top:22px">
+    <div class="chart-card">
+      <h4>Reduction potential by lever</h4>
+      <div class="csub">Estimated impact · ranked</div>
+      <div class="chart-host"><canvas id="chartLevers"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h4>Action item focus areas</h4>
+      <div class="csub">Coverage across the 4 tracker items</div>
+      <div class="chart-host"><canvas id="chartFocus"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRACKER ============ -->
+<section class="reveal">
+  <div class="section-head">
+    <span class="section-num">§ 04</span>
+    <h2 class="section-title">Sustainability <em>Tracker</em> 2026</h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="tracker-wrap">
+    <div class="tracker-tabs" role="tablist">
+      <button class="tab active" data-tab="t1">
+        <span class="tab-num">i.</span>
+        <span class="tab-lbl">Sustainable Materials<br/>&amp; Equipment</span>
+      </button>
+      <button class="tab" data-tab="t2">
+        <span class="tab-num">ii.</span>
+        <span class="tab-lbl">Energy Performance<br/>of MEP Systems</span>
+      </button>
+      <button class="tab" data-tab="t3">
+        <span class="tab-num">iii.</span>
+        <span class="tab-lbl">Waste &amp; Resource<br/>Management</span>
+      </button>
+      <button class="tab" data-tab="t4">
+        <span class="tab-num">iv.</span>
+        <span class="tab-lbl">Labour Efficiency<br/>&amp; Compliance</span>
+      </button>
+    </div>
+
+    <div class="tracker-body">
+      <!-- T1 -->
+      <div class="tracker-panel active" id="t1">
+        <div class="tp-head">
+          <div class="tp-title">
+            <div class="dept">Department · MEP</div>
+            <h3>Optimise sustainable material selection &amp; equipment specification</h3>
+          </div>
+          <div class="tp-status">
+            <span class="status-pill ongoing">Ongoing</span>
+            <span class="status-pill">Q2 Active</span>
+          </div>
+        </div>
+        <div class="tp-grid">
+          <div class="tp-block">
+            <h5>What is expected</h5>
+            <div class="body">
+              <ul>
+                <li>Evaluate and recommend energy-efficient and low-impact MEP equipment and materials.</li>
+                <li>Prioritise systems with recognised efficiency ratings or environmental certifications.</li>
+                <li>Assess lifecycle performance during equipment selection.</li>
+                <li>Coordinate with Procurement and Design to ensure compliance and feasibility.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tp-block">
+            <h5>Current Quarter Result</h5>
+            <div class="body">Low-carbon ducts and plumbing pipes shortlisted; copper wiring specification rolled forward to procurement. Hybrid generator pilot scoped for one project.</div>
+            <h5 style="margin-top:24px">Next Quarter Action</h5>
+            <div class="body">Issue revised material specification standard incorporating EPDs; finalise hybrid generator pilot supplier and trial schedule.</div>
+          </div>
+          <div class="tp-why">
+            <h5>Why this matters</h5>
+            <div class="body">MEP systems significantly influence operational energy use, carbon emissions, and long-term asset performance.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- T2 -->
+      <div class="tracker-panel" id="t2">
+        <div class="tp-head">
+          <div class="tp-title">
+            <div class="dept">Department · MEP</div>
+            <h3>Enhance energy performance of MEP systems</h3>
+          </div>
+          <div class="tp-status">
+            <span class="status-pill ongoing">Ongoing</span>
+            <span class="status-pill">Q2 Active</span>
+          </div>
+        </div>
+        <div class="tp-grid">
+          <div class="tp-block">
+            <h5>What is expected</h5>
+            <div class="body">
+              <ul>
+                <li>Optimise HVAC, lighting, and mechanical systems for efficiency.</li>
+                <li>Review load calculations to prevent oversizing.</li>
+                <li>Recommend controls and automation for energy optimisation.</li>
+                <li>Track expected performance improvements versus baseline design.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tp-block">
+            <h5>Current Quarter Result</h5>
+            <div class="body">Load calculations under second-pass review; smart HVAC controls and LED relamping evaluated on two live projects; baseline energy model captured.</div>
+            <h5 style="margin-top:24px">Next Quarter Action</h5>
+            <div class="body">Roll out automation controls (BMS) on pilot project; publish HVAC right-sizing checklist for design teams.</div>
+          </div>
+          <div class="tp-why">
+            <h5>Why this matters</h5>
+            <div class="body">MEP design decisions directly impact operational energy consumption, lifecycle cost, and client sustainability targets.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- T3 -->
+      <div class="tracker-panel" id="t3">
+        <div class="tp-head">
+          <div class="tp-title">
+            <div class="dept">Department · MEP</div>
+            <h3>Strengthen MEP waste &amp; resource management</h3>
+          </div>
+          <div class="tp-status">
+            <span class="status-pill planned">Planned</span>
+            <span class="status-pill">Q2 Setup</span>
+          </div>
+        </div>
+        <div class="tp-grid">
+          <div class="tp-block">
+            <h5>What is expected</h5>
+            <div class="body">
+              <ul>
+                <li>Minimise material waste through accurate quantity planning.</li>
+                <li>Coordinate packaging reduction with suppliers.</li>
+                <li>Ensure proper segregation of MEP-related waste.</li>
+                <li>Identify reuse opportunities for offcuts or surplus materials.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tp-block">
+            <h5>Current Quarter Result</h5>
+            <div class="body">Waste segregation protocol drafted; supplier packaging reduction conversation initiated with three vendors; offcut reuse register being designed.</div>
+            <h5 style="margin-top:24px">Next Quarter Action</h5>
+            <div class="body">Launch site waste-segregation training; publish copper, steel and PVC offcut reuse register; track recovered tonnage monthly.</div>
+          </div>
+          <div class="tp-why">
+            <h5>Why this matters</h5>
+            <div class="body">Effective resource planning reduces material cost, landfill impact, and site inefficiencies.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- T4 -->
+      <div class="tracker-panel" id="t4">
+        <div class="tp-head">
+          <div class="tp-title">
+            <div class="dept">Department · MEP</div>
+            <h3>Improve labour efficiency &amp; workforce compliance</h3>
+          </div>
+          <div class="tp-status">
+            <span class="status-pill ongoing">Ongoing</span>
+            <span class="status-pill">Q2 Active</span>
+          </div>
+        </div>
+        <div class="tp-grid">
+          <div class="tp-block">
+            <h5>What is expected</h5>
+            <div class="body">
+              <ul>
+                <li>Optimise manpower deployment to reduce idle time.</li>
+                <li>Ensure subcontractor teams comply with environmental and safety standards.</li>
+                <li>Monitor workforce training related to sustainable installation practices.</li>
+                <li>Identify productivity improvements that reduce rework.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tp-block">
+            <h5>Current Quarter Result</h5>
+            <div class="body">Manpower deployment audit completed on two sites; sustainability induction module added to subcontractor onboarding; rework log activated.</div>
+            <h5 style="margin-top:24px">Next Quarter Action</h5>
+            <div class="body">Roll out weekly supplier audit checklist; extend sustainable-installation toolbox talks to all MEP subcontractors.</div>
+          </div>
+          <div class="tp-why">
+            <h5>Why this matters</h5>
+            <div class="body">Efficient labour management reduces cost, improves programme reliability, and supports safe and compliant execution.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTROL MEASURES / SOLUTIONS ============ -->
+<section class="reveal">
+  <div class="section-head">
+    <span class="section-num">§ 05</span>
+    <h2 class="section-title">Control measures · <em>Scope 1 &amp; 2</em></h2>
+    <div class="section-rule"></div>
+  </div>
+  <p style="color:var(--ink-dim);max-width:760px;margin-bottom:30px;font-size:14px;line-height:1.7">
+    Carbon reduction levers for MEP activities, organised by emission scope. Scope 1 addresses direct on-site combustion (generators, vehicles, welding gas); Scope 2 addresses purchased grid electricity used by tools, site offices, and installed systems.
+  </p>
+
+  <div class="scope-grid">
+    <!-- Scope 1 -->
+    <div class="scope-card" data-scope="1">
+      <div class="scope-head">
+        <span class="scope-tag">Scope 1 · Direct</span>
+      </div>
+      <h3>Direct emissions from MEP operations</h3>
+      <p class="sdesc">Combustion at owned/operated sources — diesel generators, fuel pickup trucks, supplier transport, and on-site equipment.</p>
+      <div class="solutions">
+        <div class="sol-row"><div class="sol-icon">i</div><div class="sol-content"><div class="stitle">Hybrid generators</div><div class="sdesc-row">Replace pure-diesel sets with hybrid diesel + battery systems; cuts idle-running fuel burn by 30–60%.</div></div></div>
+        <div class="sol-row"><div class="sol-icon">ii</div><div class="sol-content"><div class="stitle">Fuel-truck route &amp; load optimisation</div><div class="sdesc-row">Consolidate pickups, schedule by site demand, eliminate empty runs.</div></div></div>
+        <div class="sol-row"><div class="sol-icon">iii</div><div class="sol-content"><div class="stitle">Supplier mobility shift</div><div class="sdesc-row">Replace single-use buses with carpooling, shared shuttles, or electric options where feasible.</div></div></div>
+        <div class="sol-row"><div class="sol-icon">iv</div><div class="sol-content"><div class="stitle">Low-carbon welding &amp; cutting</div><div class="sdesc-row">Use power-efficient equipment for copper pipe cutting; reduce gas-fume emission &amp; energy draw.</div></div></div>
+        <div class="sol-row"><div class="sol-icon">v</div><div class="sol-content"><div class="stitle">Equipment idling discipline</div><div class="sdesc-row">Mandatory shut-down protocol for compressors, generators &amp; welders when not in active use.</div></div></div>
+        <div class="sol-row"><div class="sol-icon">vi</div><div class="sol-content"><div class="stitle">Preventive maintenance</div><div class="sdesc-row">Tuned engines burn less; quarterly emission checks on plant &amp; pickup fleet.</div></div></div>
+      </div>
+    </div>
+
+    <!-- Scope 2 -->
+    <div class="scope-card" data-scope="2">
+      <div class="scope-head">
+        <span class="scope-tag" style="border-color:var(--emerald-bright);color:var(--emerald-bright)">Scope 2 · Indirect</span>
+      </div>
+      <h3>Indirect emissions from purchased energy</h3>
+      <p class="sdesc">Grid electricity consumed by MEP tools, site offices, lighting, HVAC during installation and ultimately by the installed systems themselves.</p>
+      <div class="solutions">
+        <div class="sol-row"><div class="sol-icon">i</div><div class="sol-content"><div class="stitle">Energy-efficient MEP equipment</div><div class="sdesc-row">Specify high-rating HVAC, lighting and pumps with EPD/efficiency labels.</div></div></div>
+        <div class="sol-row"><div class="sol-icon">ii</div><div class="sol-content"><div class="stitle">Right-sized design</div><div class="sdesc-row">Second-pass load review prevents HVAC and electrical oversizing — the single biggest hidden-energy cost.</div></div></div>
+        <div class="sol-row"><div class="sol-icon">iii</div><div class="sol-content"><div class="stitle">Smart controls &amp; BMS</div><div class="sdesc-row">Occupancy sensors, time-of-day scheduling, demand-controlled ventilation.</div></div></div>
+        <div class="sol-row"><div class="sol-icon">iv</div><div class="sol-content"><div class="stitle">Copper wiring &amp; low-loss circuits</div><div class="sdesc-row">Higher conductivity → lower I²R losses → less grid draw over the asset's lifetime.</div></div></div>
+        <div class="sol-row"><div class="sol-icon">v</div><div class="sol-content"><div class="stitle">Site-power hygiene</div><div class="sdesc-row">LED site lighting, sub-metering, power-down policies for site offices &amp; tool rooms.</div></div></div>
+        <div class="sol-row"><div class="sol-icon">vi</div><div class="sol-content"><div class="stitle">Renewables / green tariff</div><div class="sdesc-row">Procure green electricity contracts or pilot solar PV for site offices &amp; storage yards.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Target banner -->
+  <div class="target-banner">
+    <div class="tb-title">Direction of travel<br/><em>toward net-zero MEP</em></div>
+    <div class="tb-stat"><div class="n"><em>30</em>%</div><div class="l">Fuel reduction · hybrid gen pilot</div></div>
+    <div class="tb-stat"><div class="n"><em>20</em>%</div><div class="l">Energy saving · right-sized HVAC</div></div>
+    <div class="tb-stat"><div class="n"><em>100</em>%</div><div class="l">Suppliers audited · weekly</div></div>
+  </div>
+</section>
+
+<!-- ============ ESG SYSTEMS ============ -->
+<section class="reveal">
+  <div class="section-head">
+    <span class="section-num">§ 06</span>
+    <h2 class="section-title">ESG <em>systems</em> &amp; frameworks</h2>
+    <div class="section-rule"></div>
+  </div>
+  <p class="esg-intro">
+    A structured Environmental · Social · Governance architecture that anchors every MEP decision to measurable disclosure standards. The three pillars below convert the Sustainability Committee's commitments into auditable data, aligned with internationally recognised reporting frameworks.
+  </p>
+
+  <!-- THREE ESG PILLARS -->
+  <div class="esg-pillars">
+    <div class="esg-pillar env" data-letter="E">
+      <span class="ep-tag">Environmental</span>
+      <h3><em>E</em>nvironmental</h3>
+      <p class="ep-sub">Reducing operational &amp; embodied carbon footprint of MEP activities.</p>
+      <ul>
+        <li><strong>Carbon emissions</strong> — Scope 1 &amp; 2 measurement across diesel plant, fleet &amp; purchased electricity.</li>
+        <li><strong>Energy efficiency</strong> — HVAC right-sizing, BMS controls, LED &amp; smart metering.</li>
+        <li><strong>Material sustainability</strong> — Low-carbon ducts, plumbing, copper wiring with EPD verification.</li>
+        <li><strong>Waste &amp; circularity</strong> — Segregation, packaging reduction, offcut reuse register.</li>
+        <li><strong>Water stewardship</strong> — Efficient plumbing systems &amp; site water management.</li>
+        <li><strong>Air quality</strong> — Power-efficient cutting/welding to reduce fume emissions.</li>
+      </ul>
+    </div>
+
+    <div class="esg-pillar soc" data-letter="S">
+      <span class="ep-tag">Social</span>
+      <h3><em>S</em>ocial</h3>
+      <p class="ep-sub">People, workforce &amp; community impact across MEP execution.</p>
+      <ul>
+        <li><strong>Health &amp; safety</strong> — Reduced fume exposure from power-efficient welding/cutting equipment.</li>
+        <li><strong>Workforce training</strong> — Sustainable installation toolbox talks for all MEP subcontractors.</li>
+        <li><strong>Labour welfare</strong> — Energy-efficient transport replacing conventional buses for supplier mobility.</li>
+        <li><strong>Subcontractor compliance</strong> — Environmental &amp; safety standards enforced via onboarding.</li>
+        <li><strong>Skills development</strong> — Upskilling teams on low-carbon materials and smart controls.</li>
+        <li><strong>Community impact</strong> — Reduced site noise, emissions &amp; traffic from optimised operations.</li>
+      </ul>
+    </div>
+
+    <div class="esg-pillar gov" data-letter="G">
+      <span class="ep-tag">Governance</span>
+      <h3><em>G</em>overnance</h3>
+      <p class="ep-sub">Oversight, accountability &amp; ethical supply-chain management.</p>
+      <ul>
+        <li><strong>Sustainability Committee</strong> — Quarterly tracker with planned / ongoing / completed status.</li>
+        <li><strong>Supplier pre-qualification</strong> — Weekly audits &amp; inspections for compliance.</li>
+        <li><strong>Procurement policy</strong> — Mandatory low-carbon material specification on all bids.</li>
+        <li><strong>Transparency &amp; reporting</strong> — Annual Scope 1 &amp; 2 reduction report.</li>
+        <li><strong>Risk management</strong> — Carbon, energy &amp; supply-chain risk registers maintained.</li>
+        <li><strong>Ethics &amp; integrity</strong> — Documented MoMs, action ownership, audit trails.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ESG METRICS DASHBOARD -->
+  <div class="esg-systems-head">
+    <span class="num">§ 06.1</span>
+    <h3>ESG <em>KPI</em> snapshot</h3>
+  </div>
+  <div class="esg-metrics">
+    <div class="esg-metric">
+      <div class="em-cat">E · Carbon</div>
+      <div class="em-val"><em>30</em>%</div>
+      <div class="em-lbl">Targeted fuel reduction via hybrid generators</div>
+    </div>
+    <div class="esg-metric">
+      <div class="em-cat">E · Energy</div>
+      <div class="em-val"><em>20</em>%</div>
+      <div class="em-lbl">HVAC energy saving from right-sizing</div>
+    </div>
+    <div class="esg-metric">
+      <div class="em-cat">E · Waste</div>
+      <div class="em-val"><em>4</em></div>
+      <div class="em-lbl">Material streams under segregation</div>
+    </div>
+    <div class="esg-metric">
+      <div class="em-cat">S · People</div>
+      <div class="em-val"><em>100</em>%</div>
+      <div class="em-lbl">Subcontractor sustainability induction</div>
+    </div>
+    <div class="esg-metric">
+      <div class="em-cat">G · Audit</div>
+      <div class="em-val"><em>52</em></div>
+      <div class="em-lbl">Annual supplier audits (weekly cadence)</div>
+    </div>
+    <div class="esg-metric">
+      <div class="em-cat">G · Tracker</div>
+      <div class="em-val"><em>4</em>/4</div>
+      <div class="em-lbl">Action items under quarterly review</div>
+    </div>
+  </div>
+
+  <!-- ESG SCORE CHARTS -->
+  <div class="esg-charts">
+    <div class="chart-card">
+      <h4>ESG performance balance</h4>
+      <div class="csub">Maturity scoring · 0 to 100</div>
+      <div class="chart-host"><canvas id="chartESGBalance"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h4>ESG focus distribution</h4>
+      <div class="csub">Effort allocation across pillars</div>
+      <div class="chart-host"><canvas id="chartESGSplit"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ESG REPORTING FRAMEWORKS -->
+  <div class="esg-systems-head">
+    <span class="num">§ 06.2</span>
+    <h3>Aligned <em>reporting</em> frameworks</h3>
+  </div>
+  <div class="esg-systems-grid">
+    <div class="esg-system">
+      <div class="es-code">Framework · 01</div>
+      <h4>GHG Protocol</h4>
+      <p>Global standard for Scope 1, 2 &amp; 3 emissions accounting — anchors all MEP carbon measurement.</p>
+    </div>
+    <div class="esg-system">
+      <div class="es-code">Framework · 02</div>
+      <h4>GRI Standards</h4>
+      <p>Global Reporting Initiative — material topic disclosure across E, S &amp; G performance.</p>
+    </div>
+    <div class="esg-system">
+      <div class="es-code">Framework · 03</div>
+      <h4>ISO 14001</h4>
+      <p>Environmental Management System certification framework for MEP site operations.</p>
+    </div>
+    <div class="esg-system">
+      <div class="es-code">Framework · 04</div>
+      <h4>ISO 50001</h4>
+      <p>Energy Management System — formalises HVAC, lighting &amp; BMS optimisation discipline.</p>
+    </div>
+    <div class="esg-system">
+      <div class="es-code">Framework · 05</div>
+      <h4>ISO 45001</h4>
+      <p>Occupational health &amp; safety — covers workforce welfare, welding fumes &amp; site safety.</p>
+    </div>
+    <div class="esg-system">
+      <div class="es-code">Framework · 06</div>
+      <h4>LEED · Estidama</h4>
+      <p>Green building rating systems — MEP credits for energy, materials &amp; indoor environment.</p>
+    </div>
+    <div class="esg-system">
+      <div class="es-code">Framework · 07</div>
+      <h4>SASB / TCFD</h4>
+      <p>Climate-related financial disclosure &amp; sector-specific sustainability accounting.</p>
+    </div>
+    <div class="esg-system">
+      <div class="es-code">Framework · 08</div>
+      <h4>UN SDGs</h4>
+      <p>Direct alignment with SDG 7 (Energy), 11 (Cities), 12 (Consumption), 13 (Climate).</p>
+    </div>
+  </div>
+
+  <!-- ESG GOVERNANCE FLOW -->
+  <div class="esg-gov-flow">
+    <h4>ESG <em>governance</em> structure</h4>
+    <div class="gf-sub">Decision flow · Committee to site</div>
+    <div class="gov-layers">
+      <div class="gov-layer">
+        <div class="gl-num">i.</div>
+        <h5>Sustainability Committee</h5>
+        <p>Sets ESG strategy, approves policies, reviews KPIs.</p>
+      </div>
+      <div class="gov-layer">
+        <div class="gl-num">ii.</div>
+        <h5>MEP Sustainability Champion</h5>
+        <p>Translates ESG strategy into MEP-specific actions &amp; tracker.</p>
+      </div>
+      <div class="gov-layer">
+        <div class="gl-num">iii.</div>
+        <h5>Procurement &amp; Design</h5>
+        <p>Embeds ESG criteria into material specs &amp; supplier audits.</p>
+      </div>
+      <div class="gov-layer">
+        <div class="gl-num">iv.</div>
+        <h5>Site Execution &amp; Subcontractors</h5>
+        <p>Delivers on ESG commitments through training &amp; compliance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FUTURE ROADMAP ============ -->
+<section class="reveal">
+  <div class="section-head">
+    <span class="section-num">§ 07</span>
+    <h2 class="section-title">Future plan · <em>2026 roadmap</em></h2>
+    <div class="section-rule"></div>
+  </div>
+  <p style="color:var(--ink-dim);max-width:760px;margin-bottom:10px;font-size:14px;line-height:1.7">
+    A four-quarter trajectory to drive measurable reduction in Scope 1 &amp; 2 emissions across all MEP activities — from baseline measurement to scaled adoption.
+  </p>
+
+  <div class="timeline">
+    <div class="timeline-grid">
+      <div class="tl-step">
+        <div class="tl-dot"></div>
+        <div class="tl-q">Q2 · 2026</div>
+        <div class="tl-period">Baseline &amp; Pilot</div>
+        <h4>Measure &amp; mobilise</h4>
+        <ul>
+          <li>Establish carbon baseline for MEP fuel &amp; electricity use</li>
+          <li>Launch hybrid generator pilot on one project</li>
+          <li>Issue revised low-carbon material spec</li>
+          <li>Start weekly supplier audits</li>
+        </ul>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot"></div>
+        <div class="tl-q">Q3 · 2026</div>
+        <div class="tl-period">Procure &amp; Train</div>
+        <h4>Switch &amp; specify</h4>
+        <ul>
+          <li>Roll out low-carbon ducts &amp; plumbing on new bids</li>
+          <li>Specify power-efficient cutting / welding kit</li>
+          <li>Deploy BMS &amp; smart controls on pilot site</li>
+          <li>Site-wide sustainability toolbox talks</li>
+        </ul>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot"></div>
+        <div class="tl-q">Q4 · 2026</div>
+        <div class="tl-period">Optimise &amp; Audit</div>
+        <h4>Tune &amp; verify</h4>
+        <ul>
+          <li>Optimise fuel-truck routes &amp; supplier mobility</li>
+          <li>Right-size HVAC checklist mandatory on all designs</li>
+          <li>Quarterly emission audit on plant &amp; fleet</li>
+          <li>Publish offcut reuse register results</li>
+        </ul>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot"></div>
+        <div class="tl-q">Q1 · 2027</div>
+        <div class="tl-period">Scale &amp; Embed</div>
+        <h4>Standardise &amp; scale</h4>
+        <ul>
+          <li>Scale hybrid generators across all sites</li>
+          <li>Green-tariff / on-site solar feasibility for yards</li>
+          <li>Embed sustainability KPIs in subcontractor contracts</li>
+          <li>Publish annual Scope 1 &amp; 2 reduction report</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-brand">INNOVO · Sustainability Committee</div>
+  <div class="f-meta">MEP · MoM · 06 · 05 · 2026 · Dashboard v1</div>
+</footer>
+
+</div>
+
+<script>
+// =============== SCROLL REVEAL ===============
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// =============== TABS ===============
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tracker-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// =============== CHARTS ===============
+const GOLD = '#c8a96a';
+const GOLD_BRIGHT = '#e2c485';
+const EMERALD = '#5d9a82';
+const COPPER = '#b97a4b';
+const INK = '#ece7d9';
+const INK_DIM = '#9aa39a';
+const GRID = 'rgba(200,169,106,0.08)';
+
+const baseAxisOpts = {
+  ticks:{color:INK_DIM,font:{family:"'Inter Tight'",size:11},padding:8},
+  grid:{color:GRID,drawBorder:false},
+  border:{display:false}
+};
+const baseLegend = {
+  labels:{color:INK,font:{family:"'Inter Tight'",size:12},boxWidth:10,boxHeight:10,padding:14,usePointStyle:true}
+};
+Chart.defaults.font.family = "'Inter Tight'";
+Chart.defaults.color = INK_DIM;
+
+// 1. Emission sources (horizontal bar)
+new Chart(document.getElementById('chartEmissions'),{
+  type:'bar',
+  data:{
+    labels:['Diesel generators','Supplier transport','Fuel pickup ops','HVAC operating energy','Site lighting & tools','Welding & cutting','Material embodied carbon'],
+    datasets:[{
+      label:'Indicative share %',
+      data:[24,16,12,18,9,7,14],
+      backgroundColor:(ctx)=>{
+        const c=ctx.dataIndex;
+        const colors=[GOLD,COPPER,COPPER,EMERALD,EMERALD,COPPER,GOLD_BRIGHT];
+        return colors[c];
+      },
+      borderColor:'rgba(0,0,0,0.2)',borderWidth:1,borderRadius:2,
+      barThickness:18,
+    }]
+  },
+  options:{
+    indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'#0f1413',borderColor:GOLD,borderWidth:1,titleColor:GOLD,bodyColor:INK,padding:12}},
+    scales:{x:{...baseAxisOpts,ticks:{...baseAxisOpts.ticks,callback:v=>v+'%'}},y:baseAxisOpts}
+  }
+});
+
+// 2. Scope split (doughnut)
+new Chart(document.getElementById('chartScope'),{
+  type:'doughnut',
+  data:{
+    labels:['Scope 1 · Direct','Scope 2 · Indirect'],
+    datasets:[{
+      data:[58,42],
+      backgroundColor:[GOLD,EMERALD],
+      borderColor:'#0f1413',borderWidth:4,hoverOffset:8
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,cutout:'68%',
+    plugins:{
+      legend:{position:'bottom',...baseLegend},
+      tooltip:{backgroundColor:'#0f1413',borderColor:GOLD,borderWidth:1,titleColor:GOLD,bodyColor:INK,padding:12,callbacks:{label:c=>c.label+' · '+c.parsed+'%'}}
+    }
+  }
+});
+
+// 3. Reduction potential (horizontal bar gradient)
+new Chart(document.getElementById('chartLevers'),{
+  type:'bar',
+  data:{
+    labels:['Hybrid generators','Right-sized HVAC','Smart BMS controls','Low-carbon materials','Supplier mobility','Copper wiring losses','Fuel-truck routing'],
+    datasets:[{
+      label:'Estimated reduction %',
+      data:[35,22,18,15,12,9,8],
+      backgroundColor:GOLD,
+      borderColor:GOLD_BRIGHT,borderWidth:1,borderRadius:2,
+      barThickness:18,
+    }]
+  },
+  options:{
+    indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'#0f1413',borderColor:GOLD,borderWidth:1,titleColor:GOLD,bodyColor:INK,padding:12,callbacks:{label:c=>'~'+c.parsed.x+'% potential reduction'}}},
+    scales:{x:{...baseAxisOpts,ticks:{...baseAxisOpts.ticks,callback:v=>v+'%'}},y:baseAxisOpts}
+  }
+});
+
+// 4. Focus areas (radar)
+new Chart(document.getElementById('chartFocus'),{
+  type:'radar',
+  data:{
+    labels:['Materials','Energy','Waste','Labour','Procurement','Compliance'],
+    datasets:[{
+      label:'Coverage',
+      data:[9,9,7,8,7,8],
+      backgroundColor:'rgba(200,169,106,0.15)',
+      borderColor:GOLD,borderWidth:2,
+      pointBackgroundColor:GOLD_BRIGHT,pointBorderColor:'#0f1413',pointRadius:4,pointHoverRadius:6
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'#0f1413',borderColor:GOLD,borderWidth:1,titleColor:GOLD,bodyColor:INK,padding:12}},
+    scales:{
+      r:{
+        suggestedMin:0,suggestedMax:10,
+        angleLines:{color:'rgba(200,169,106,0.12)'},
+        grid:{color:'rgba(200,169,106,0.10)'},
+        pointLabels:{color:INK,font:{family:"'Cormorant Garamond'",size:14,style:'italic'}},
+        ticks:{display:false}
+      }
+    }
+  }
+});
+
+// 5. ESG Balance (polar area)
+new Chart(document.getElementById('chartESGBalance'),{
+  type:'polarArea',
+  data:{
+    labels:['Environmental','Social','Governance'],
+    datasets:[{
+      data:[78,68,82],
+      backgroundColor:['rgba(93,154,130,0.55)','rgba(185,122,75,0.55)','rgba(200,169,106,0.55)'],
+      borderColor:['#5d9a82','#b97a4b','#c8a96a'],borderWidth:2,
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom',...baseLegend},
+      tooltip:{backgroundColor:'#0f1413',borderColor:GOLD,borderWidth:1,titleColor:GOLD,bodyColor:INK,padding:12,callbacks:{label:c=>c.label+' · '+c.parsed.r+' / 100'}}
+    },
+    scales:{
+      r:{
+        suggestedMin:0,suggestedMax:100,
+        angleLines:{color:'rgba(200,169,106,0.12)'},
+        grid:{color:'rgba(200,169,106,0.10)'},
+        ticks:{display:false,backdropColor:'transparent'},
+        pointLabels:{display:false}
+      }
+    }
+  }
+});
+
+// 6. ESG Distribution (doughnut)
+new Chart(document.getElementById('chartESGSplit'),{
+  type:'doughnut',
+  data:{
+    labels:['Environmental','Social','Governance'],
+    datasets:[{
+      data:[50,25,25],
+      backgroundColor:[EMERALD,COPPER,GOLD],
+      borderColor:'#0f1413',borderWidth:4,hoverOffset:8
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,cutout:'62%',
+    plugins:{
+      legend:{position:'bottom',...baseLegend},
+      tooltip:{backgroundColor:'#0f1413',borderColor:GOLD,borderWidth:1,titleColor:GOLD,bodyColor:INK,padding:12,callbacks:{label:c=>c.label+' · '+c.parsed+'%'}}
+    }
+  }
+});
+</script>
+</body>
+</html>
